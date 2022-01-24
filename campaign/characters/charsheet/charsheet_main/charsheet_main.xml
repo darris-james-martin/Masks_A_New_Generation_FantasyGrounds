@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="charsheet_main">
+    <placement>
+      <size height="525" width="572" />
+    </placement>
+    <sheetdata>
+      <genericcontrol name="IconControl2">
+        <frame>
+          <name>groupbox</name>
+        </frame>
+        <bounds>-285,181,283,254</bounds>
+      </genericcontrol>
+      <genericcontrol name="IconControl1">
+        <frame>
+          <name>groupbox</name>
+        </frame>
+        <bounds>2,181,283,254</bounds>
+      </genericcontrol>
+      <stringcontrol name="Label3">
+        <bounds>770,15,100,20</bounds>
+        <invisible />
+        <static textres="charsheet_main_Label3_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_danger">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>704,9,60,30</bounds>
+        <invisible />
+      </number>
+      <stringcontrol name="Label4">
+        <bounds>770,46,100,20</bounds>
+        <invisible />
+        <static textres="charsheet_main_Label4_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_freak">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>704,41,60,30</bounds>
+        <invisible />
+      </number>
+      <stringcontrol name="Label5">
+        <bounds>770,76,100,20</bounds>
+        <invisible />
+        <static textres="charsheet_main_Label5_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_savior">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>704,72,60,30</bounds>
+        <invisible />
+      </number>
+      <stringcontrol name="Label6">
+        <bounds>770,107,100,20</bounds>
+        <invisible />
+        <static textres="charsheet_main_Label6_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_superior">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>704,102,60,30</bounds>
+        <invisible />
+      </number>
+      <stringcontrol name="Label7">
+        <bounds>770,138,100,20</bounds>
+        <invisible />
+        <static textres="charsheet_main_Label7_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_mundane">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>704,132,60,30</bounds>
+        <invisible />
+      </number>
+      <windowlist name="wl_basic_moves">
+        <bounds>8,188,269,239</bounds>
+        <class>move_detail</class>
+        <datasource>.wl_basic_moves</datasource>
+        <allowcreate />
+        <allowdelete />
+        <acceptdrop>
+          <class>move_sheet</class>
+          <field>*</field>
+        </acceptdrop>
+      </windowlist>
+      <windowlist name="wl_playbook_moves">
+        <bounds>-278,188,269,239</bounds>
+        <class>move_detail</class>
+        <datasource>.wl_playbook_moves</datasource>
+        <allowcreate />
+        <allowdelete />
+        <acceptdrop>
+          <class>move_sheet</class>
+          <field>*</field>
+        </acceptdrop>
+      </windowlist>
+      <stringcontrol name="Label1">
+        <bounds>11,5,100,20</bounds>
+        <static textres="charsheet_main_Label1_LabelCaption" />
+        <font>masks_header</font>
+        <readonly />
+      </stringcontrol>
+      <button_iconcycler name="ic_superior">
+        <bounds>9,107,306,26</bounds>
+        <readonly />
+        <parameters>
+          <icons>icon_label_n2|icon_label_n1|icon_label_0|icon_label_p1|icon_label_p2|icon_label_p3</icons>
+          <values>-2|-1|0|1|2|3</values>
+          <tooltipsres>charsheet_main_ic_superior_Tooltip_-2|charsheet_main_ic_superior_Tooltip_-1|charsheet_main_ic_superior_Tooltip_0|charsheet_main_ic_superior_Tooltip_1|charsheet_main_ic_superior_Tooltip_2|charsheet_main_ic_superior_Tooltip_3</tooltipsres>
+          <nodefault />
+        </parameters>
+        <script>
+function onInit()
+	super.onInit();
+	setLabelValue();
+end
+
+function onValueChanged()
+	setLabelValue();
+end
+
+function setLabelValue()
+	local index = getIndex();
+	--Debug.chat("setLabelValue() - index",index);
+	local value = -99;
+	if		index == 1 then value = -2;
+	elseif	index == 2 then value = -1;
+	elseif	index == 3 then value = 0;
+	elseif	index == 4 then value = 1;
+	elseif	index == 5 then value = 2;
+	elseif	index == 6 then value = 3;
+	end
+	
+	--Debug.chat("label value",value);
+	window.num_superior.setValue(value);
+end
+
+
+</script>
+      </button_iconcycler>
+      <stringcontrol name="lbl_superior">
+        <bounds>13,106,64,29</bounds>
+        <static textres="charsheet_main_lbl_superior_LabelCaption" />
+        <font>reference-b-large</font>
+        <script>
+
+function onDoubleClick(x, y)
+	--get nodeChar
+	local nodeChar = window.getDatabaseNode();
+	-- Set Add Text
+	local rAddText = {
+		nStat = window.num_superior.getValue(),
+		sAttackStat = getValue(),	
+	}
+	
+	manager_rolls.rollInit(nodeChar, "Label", rAddText);
+end
+
+</script>
+        <readonly />
+      </stringcontrol>
+      <buttoncontrol name="btn_superior_left">
+        <bounds>74,107,21,26</bounds>
+        <icon normal="button_arrows_left" pressed="button_arrows_left_down" />
+        <font>button-white</font>
+        <script>
+
+function onClickRelease(button, x, y)
+	local nIndex = window.ic_superior.getIndex();
+	local nodeChar = window.getDatabaseNode();
+	--Debug.chat("nIndex (before)",nIndex);
+	if (nIndex &gt; 1) then
+		window.ic_superior.setIndex(nIndex-1);
+	else
+		 local msg = 
+		{
+			font = "narratorfont", 
+			mode = "ooc",
+			icon = "portrait_" .. nodeChar.getName() .. "_chat";
+			text = nodeChar.getChild("name").getValue()..Interface.getString("charsheet_label_limit");
+		}
+		Comm.deliverChatMessage(msg);
+	end
+	
+	--Debug.chat("nIndex (after)",window.ic_superior.getIndex());
+end
+
+</script>
+      </buttoncontrol>
+      <buttoncontrol name="btn_superior_right">
+        <bounds>295,107,21,26</bounds>
+        <icon normal="button_arrows_right" pressed="button_arrows_right_down" />
+        <font>button-white</font>
+        <script>
+
+function onClickRelease(button, x, y)
+	local nIndex = window.ic_superior.getIndex();
+	local nodeChar = window.getDatabaseNode();
+	--Debug.chat("nIndex (before)",nIndex);
+	if (nIndex &lt; 6) then
+		window.ic_superior.setIndex(nIndex+1);
+	else
+		 local msg = 
+		{
+			font = "narratorfont", 
+			mode = "ooc",
+			icon = "portrait_" .. nodeChar.getName() .. "_chat";
+			text = nodeChar.getChild("name").getValue()..Interface.getString("charsheet_label_limit");
+		}
+		Comm.deliverChatMessage(msg);
+	end
+	
+	--Debug.chat("nIndex (after)",window.ic_superior.getIndex());
+end
+
+</script>
+      </buttoncontrol>
+      <button_iconcycler name="ic_savior">
+        <bounds>9,80,306,26</bounds>
+        <readonly />
+        <parameters>
+          <icons>icon_label_n2|icon_label_n1|icon_label_0|icon_label_p1|icon_label_p2|icon_label_p3</icons>
+          <values>-2|-1|0|1|2|3</values>
+          <tooltipsres>charsheet_main_ic_savior_Tooltip_-2|charsheet_main_ic_savior_Tooltip_-1|charsheet_main_ic_savior_Tooltip_0|charsheet_main_ic_savior_Tooltip_1|charsheet_main_ic_savior_Tooltip_2|charsheet_main_ic_savior_Tooltip_3</tooltipsres>
+          <nodefault />
+        </parameters>
+        <script>
+function onInit()
+	super.onInit();
+	setLabelValue();
+end
+
+function onValueChanged()
+	setLabelValue();
+end
+
+function setLabelValue()
+	local index = getIndex();
+	--Debug.chat("setLabelValue() - index",index);
+	local value = -99;
+	if		index == 1 then value = -2;
+	elseif	index == 2 then value = -1;
+	elseif	index == 3 then value = 0;
+	elseif	index == 4 then value = 1;
+	elseif	index == 5 then value = 2;
+	elseif	index == 6 then value = 3;
+	end
+	
+	--Debug.chat("label value",value);
+	window.num_savior.setValue(value);
+end
+
+
+</script>
+      </button_iconcycler>
+      <stringcontrol name="lbl_savior">
+        <bounds>13,79,65,29</bounds>
+        <static textres="charsheet_main_lbl_savior_LabelCaption" />
+        <font>reference-b-large</font>
+        <script>
+
+function onDoubleClick(x, y)
+	--get nodeChar
+	local nodeChar = window.getDatabaseNode();
+	-- Set Add Text
+	local rAddText = {
+		nStat = window.num_savior.getValue(),
+		sAttackStat = getValue(),	
+	}
+	
+	manager_rolls.rollInit(nodeChar, "Label", rAddText);
+end
+
+</script>
+        <readonly />
+      </stringcontrol>
+      <buttoncontrol name="btn_savior_left">
+        <bounds>74,80,21,26</bounds>
+        <icon normal="button_arrows_left" pressed="button_arrows_left_down" />
+        <font>button-white</font>
+        <script>
+
+function onClickRelease(button, x, y)
+	local nIndex = window.ic_savior.getIndex();
+	local nodeChar = window.getDatabaseNode();
+	--Debug.chat("nIndex (before)",nIndex);
+	if (nIndex &gt; 1) then
+		window.ic_savior.setIndex(nIndex-1);
+	else
+		 local msg = 
+		{
+			font = "narratorfont", 
+			mode = "ooc",
+			icon = "portrait_" .. nodeChar.getName() .. "_chat";
+			text = nodeChar.getChild("name").getValue()..Interface.getString("charsheet_label_limit");
+		}
+		Comm.deliverChatMessage(msg);
+	end
+	
+	--Debug.chat("nIndex (after)",window.ic_savior.getIndex());
+end
+
+</script>
+      </buttoncontrol>
+      <buttoncontrol name="btn_savior_right">
+        <bounds>295,80,21,26</bounds>
+        <icon normal="button_arrows_right" pressed="button_arrows_right_down" />
+        <font>button-white</font>
+        <script>
+
+function onClickRelease(button, x, y)
+	local nIndex = window.ic_savior.getIndex();
+	local nodeChar = window.getDatabaseNode();
+	--Debug.chat("nIndex (before)",nIndex);
+	if (nIndex &lt; 6) then
+		window.ic_savior.setIndex(nIndex+1);
+	else
+		 local msg = 
+		{
+			font = "narratorfont", 
+			mode = "ooc",
+			icon = "portrait_" .. nodeChar.getName() .. "_chat";
+			text = nodeChar.getChild("name").getValue()..Interface.getString("charsheet_label_limit");
+		}
+		Comm.deliverChatMessage(msg);
+	end
+	
+	--Debug.chat("nIndex (after)",window.ic_savior.getIndex());
+end
+
+</script>
+      </buttoncontrol>
+      <button_iconcycler name="ic_mundane">
+        <bounds>9,133,306,26</bounds>
+        <readonly />
+        <parameters>
+          <icons>icon_label_n2|icon_label_n1|icon_label_0|icon_label_p1|icon_label_p2|icon_label_p3</icons>
+          <values>-2|-1|0|1|2|3</values>
+          <tooltipsres>charsheet_main_ic_mundane_Tooltip_-2|charsheet_main_ic_mundane_Tooltip_-1|charsheet_main_ic_mundane_Tooltip_0|charsheet_main_ic_mundane_Tooltip_1|charsheet_main_ic_mundane_Tooltip_2|charsheet_main_ic_mundane_Tooltip_3</tooltipsres>
+          <nodefault />
+        </parameters>
+        <script>
+function onInit()
+	super.onInit();
+	setLabelValue();
+end
+
+function onValueChanged()
+	setLabelValue();
+end
+
+function setLabelValue()
+	local index = getIndex();
+	--Debug.chat("setLabelValue() - index",index);
+	local value = -99;
+	if		index == 1 then value = -2;
+	elseif	index == 2 then value = -1;
+	elseif	index == 3 then value = 0;
+	elseif	index == 4 then value = 1;
+	elseif	index == 5 then value = 2;
+	elseif	index == 6 then value = 3;
+	end
+	
+	--Debug.chat("label value",value);
+	window.num_mundane.setValue(value);
+end
+
+
+</script>
+      </button_iconcycler>
+      <stringcontrol name="lbl_mundane">
+        <bounds>13,131,65,29</bounds>
+        <static textres="charsheet_main_lbl_mundane_LabelCaption" />
+        <font>reference-b-large</font>
+        <script>
+
+function onDoubleClick(x, y)
+	--get nodeChar
+	local nodeChar = window.getDatabaseNode();
+	-- Set Add Text
+	local rAddText = {
+		nStat = window.num_mundane.getValue(),
+		sAttackStat = getValue(),	
+	}
+	
+	manager_rolls.rollInit(nodeChar, "Label", rAddText);
+end
+
+</script>
+        <readonly />
+      </stringcontrol>
+      <buttoncontrol name="btn_mundane_left">
+        <bounds>74,133,21,26</bounds>
+        <icon normal="button_arrows_left" pressed="button_arrows_left_down" />
+        <font>button-white</font>
+        <script>
+
+function onClickRelease(button, x, y)
+	local nIndex = window.ic_mundane.getIndex();
+	local nodeChar = window.getDatabaseNode();
+	--Debug.chat("nIndex (before)",nIndex);
+	if (nIndex &gt; 1) then
+		window.ic_mundane.setIndex(nIndex-1);
+	else
+		 local msg = 
+		{
+			font = "narratorfont", 
+			mode = "ooc",
+			icon = "portrait_" .. nodeChar.getName() .. "_chat";
+			text = nodeChar.getChild("name").getValue()..Interface.getString("charsheet_label_limit");
+		}
+		Comm.deliverChatMessage(msg);
+	end
+	
+	--Debug.chat("nIndex (after)",window.ic_mundane.getIndex());
+end
+
+</script>
+      </buttoncontrol>
+      <buttoncontrol name="btn_mundane_right">
+        <bounds>295,133,21,26</bounds>
+        <icon normal="button_arrows_right" pressed="button_arrows_right_down" />
+        <font>button-white</font>
+        <script>
+
+function onClickRelease(button, x, y)
+	--declarations
+	local nIndex = window.ic_mundane.getIndex();
+	local nodeChar = window.getDatabaseNode();
+	--Debug.chat("nIndex (before)",nIndex);
+	
+	if (nIndex &lt; 6) then
+		window.ic_mundane.setIndex(nIndex+1);
+	else
+		 local msg = 
+		{
+			font = "narratorfont", 
+			mode = "ooc",
+			icon = "portrait_" .. nodeChar.getName() .. "_chat";
+			text = nodeChar.getChild("name").getValue()..Interface.getString("charsheet_label_limit");
+		}
+		Comm.deliverChatMessage(msg);
+	end
+	
+	--Debug.chat("nIndex (after)",window.ic_mundane.getIndex());
+end
+
+</script>
+      </buttoncontrol>
+      <button_iconcycler name="ic_freak">
+        <bounds>9,54,306,26</bounds>
+        <readonly />
+        <parameters>
+          <icons>icon_label_n2|icon_label_n1|icon_label_0|icon_label_p1|icon_label_p2|icon_label_p3</icons>
+          <values>-2|-1|0|1|2|3</values>
+          <tooltipsres>charsheet_main_ic_freak_Tooltip_-2|charsheet_main_ic_freak_Tooltip_-1|charsheet_main_ic_freak_Tooltip_0|charsheet_main_ic_freak_Tooltip_1|charsheet_main_ic_freak_Tooltip_2|charsheet_main_ic_freak_Tooltip_3</tooltipsres>
+          <nodefault />
+        </parameters>
+        <script>
+function onInit()
+	super.onInit();
+	setLabelValue();
+end
+
+function onValueChanged()
+	setLabelValue();
+end
+
+function setLabelValue()
+	local index = getIndex();
+	--Debug.chat("setLabelValue() - index",index);
+	local value = -99;
+	if		index == 1 then value = -2;
+	elseif	index == 2 then value = -1;
+	elseif	index == 3 then value = 0;
+	elseif	index == 4 then value = 1;
+	elseif	index == 5 then value = 2;
+	elseif	index == 6 then value = 3;
+	end
+	
+	--Debug.chat("label value",value);
+	window.num_freak.setValue(value);
+end
+
+
+</script>
+      </button_iconcycler>
+      <stringcontrol name="lbl_freak">
+        <bounds>13,53,65,29</bounds>
+        <static textres="charsheet_main_lbl_freak_LabelCaption" />
+        <font>reference-b-large</font>
+        <script>
+
+function onDoubleClick(x, y)
+	--get nodeChar
+	local nodeChar = window.getDatabaseNode();
+	-- Set Add Text
+	local rAddText = {
+		nStat = window.num_freak.getValue(),
+		sAttackStat = getValue(),	
+	}
+	
+	manager_rolls.rollInit(nodeChar, "Label", rAddText);
+end
+
+</script>
+        <readonly />
+      </stringcontrol>
+      <buttoncontrol name="btn_freak_left">
+        <bounds>74,54,21,26</bounds>
+        <icon normal="button_arrows_left" pressed="button_arrows_left_down" />
+        <font>button-white</font>
+        <script>
+
+function onClickRelease(button, x, y)
+	local nIndex = window.ic_freak.getIndex();
+	local nodeChar = window.getDatabaseNode();
+	--Debug.chat("nIndex (before)",nIndex);
+	if (nIndex &gt; 1) then
+		window.ic_freak.setIndex(nIndex-1);
+	else
+		 local msg = 
+		{
+			font = "narratorfont", 
+			mode = "ooc",
+			icon = "portrait_" .. nodeChar.getName() .. "_chat";
+			text = nodeChar.getChild("name").getValue()..Interface.getString("charsheet_label_limit");
+		}
+		Comm.deliverChatMessage(msg);
+	end
+	
+	--Debug.chat("nIndex (after)",window.ic_freak.getIndex());
+end
+
+</script>
+      </buttoncontrol>
+      <buttoncontrol name="btn_freak_right">
+        <bounds>295,54,21,26</bounds>
+        <icon normal="button_arrows_right" pressed="button_arrows_right_down" />
+        <font>button-white</font>
+        <script>
+
+function onClickRelease(button, x, y)
+	local nIndex = window.ic_freak.getIndex();
+	local nodeChar = window.getDatabaseNode();
+	--Debug.chat("nIndex (before)",nIndex);
+	if (nIndex &lt; 6) then
+		window.ic_freak.setIndex(nIndex+1);
+	else
+		 local msg = 
+		{
+			font = "narratorfont", 
+			mode = "ooc",
+			icon = "portrait_" .. nodeChar.getName() .. "_chat";
+			text = nodeChar.getChild("name").getValue()..Interface.getString("charsheet_label_limit");
+		}
+		Comm.deliverChatMessage(msg);
+	end
+	
+	--Debug.chat("nIndex (after)",window.ic_freak.getIndex());
+end
+
+</script>
+      </buttoncontrol>
+      <button_iconcycler name="ic_danger">
+        <bounds>9,27,306,26</bounds>
+        <readonly />
+        <parameters>
+          <icons>icon_label_n2|icon_label_n1|icon_label_0|icon_label_p1|icon_label_p2|icon_label_p3</icons>
+          <values>-2|-1|0|1|2|3</values>
+          <tooltipsres>charsheet_main_ic_danger_Tooltip_-2|charsheet_main_ic_danger_Tooltip_-1|charsheet_main_ic_danger_Tooltip_0|charsheet_main_ic_danger_Tooltip_1|charsheet_main_ic_danger_Tooltip_2|charsheet_main_ic_danger_Tooltip_3</tooltipsres>
+          <nodefault />
+        </parameters>
+        <script>
+function onInit()
+	super.onInit();
+	setLabelValue();
+end
+
+function onValueChanged()
+	setLabelValue();
+end
+
+function setLabelValue()
+	local index = getIndex();
+	--Debug.chat("setLabelValue() - index",index);
+	local value = -99;
+	if		index == 1 then value = -2;
+	elseif	index == 2 then value = -1;
+	elseif	index == 3 then value = 0;
+	elseif	index == 4 then value = 1;
+	elseif	index == 5 then value = 2;
+	elseif	index == 6 then value = 3;
+	end
+	
+	--Debug.chat("label value",value);
+	window.num_danger.setValue(value);
+end
+
+
+</script>
+      </button_iconcycler>
+      <stringcontrol name="lbl_danger">
+        <bounds>13,26,65,29</bounds>
+        <static textres="charsheet_main_lbl_danger_LabelCaption" />
+        <font>reference-b-large</font>
+        <script>
+
+function onDoubleClick(x, y)
+	--get nodeChar
+	local nodeChar = window.getDatabaseNode();
+	-- Set Add Text
+	local rAddText = {
+		nStat = window.num_danger.getValue(),
+		sAttackStat = getValue(),	
+	}
+	
+	manager_rolls.rollInit(nodeChar, "Label", rAddText);
+end
+
+</script>
+        <readonly />
+      </stringcontrol>
+      <buttoncontrol name="btn_danger_left">
+        <bounds>74,27,21,26</bounds>
+        <icon normal="button_arrows_left" pressed="button_arrows_left_down" />
+        <font>button-white</font>
+        <script>
+
+function onClickRelease(button, x, y)
+	local nIndex = window.ic_danger.getIndex();
+	local nodeChar = window.getDatabaseNode();
+	--Debug.chat("nIndex (before)",nIndex);
+	if (nIndex &gt; 1) then
+		window.ic_danger.setIndex(nIndex-1);
+	else
+		 local msg = 
+		{
+			font = "narratorfont", 
+			mode = "ooc",
+			icon = "portrait_" .. nodeChar.getName() .. "_chat";
+			text = nodeChar.getChild("name").getValue()..Interface.getString("charsheet_label_limit");
+		}
+		Comm.deliverChatMessage(msg);
+	end
+	
+	--Debug.chat("nIndex (after)",window.ic_danger.getIndex());
+end
+
+</script>
+      </buttoncontrol>
+      <buttoncontrol name="btn_danger_right">
+        <bounds>295,27,21,26</bounds>
+        <icon normal="button_arrows_right" pressed="button_arrows_right_down" />
+        <font>button-white</font>
+        <script>
+
+function onClickRelease(button, x, y)
+	local nIndex = window.ic_danger.getIndex();
+	local nodeChar = window.getDatabaseNode();
+	--Debug.chat("nIndex (before)",nIndex);
+	if (nIndex &lt; 6) then
+		window.ic_danger.setIndex(nIndex+1);
+	else
+		 local msg = 
+		{
+			font = "narratorfont", 
+			mode = "ooc",
+			icon = "portrait_" .. nodeChar.getName() .. "_chat";
+			text = nodeChar.getChild("name").getValue()..Interface.getString("charsheet_label_limit");
+		}
+		Comm.deliverChatMessage(msg);
+	end
+	
+	--Debug.chat("nIndex (after)",window.ic_danger.getIndex());
+end
+
+</script>
+      </buttoncontrol>
+      <stringcontrol name="Label2">
+        <bounds>18,159,100,20</bounds>
+        <static textres="charsheet_main_Label2_LabelCaption" />
+        <font>masks_header</font>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="Label9">
+        <bounds>-269,159,100,20</bounds>
+        <static textres="charsheet_main_Label9_LabelCaption" />
+        <font>masks_header</font>
+        <readonly />
+      </stringcontrol>
+      <genericcontrol name="IconControl3">
+        <frame>
+          <name>groupbox</name>
+        </frame>
+        <bounds>0,451,283,76</bounds>
+      </genericcontrol>
+      <windowlist name="wl_influence_self">
+        <bounds>7,458,269,60</bounds>
+        <class>influence_detail</class>
+        <datasource>.wl_influence_self</datasource>
+        <allowcreate />
+        <allowdelete />
+        <acceptdrop>
+          <class>move_sheet</class>
+          <field>*</field>
+        </acceptdrop>
+      </windowlist>
+      <stringcontrol name="Label8">
+        <bounds>16,433,100,20</bounds>
+        <static textres="charsheet_main_Label8_LabelCaption" />
+        <font>masks_header</font>
+        <readonly />
+      </stringcontrol>
+      <genericcontrol name="IconControl4">
+        <frame>
+          <name>groupbox</name>
+        </frame>
+        <bounds>-285,-74,283,76</bounds>
+      </genericcontrol>
+      <windowlist name="wl_influence_others">
+        <bounds>-279,-67,269,60</bounds>
+        <class>influence_detail</class>
+        <datasource>.wl_influence_others</datasource>
+        <allowcreate />
+        <allowdelete />
+        <acceptdrop>
+          <class>move_sheet</class>
+          <field>*</field>
+        </acceptdrop>
+      </windowlist>
+      <stringcontrol name="Label10">
+        <bounds>-269,-92,112,20</bounds>
+        <static textres="charsheet_main_Label10_LabelCaption" />
+        <font>masks_header</font>
+        <readonly />
+      </stringcontrol>
+    </sheetdata>
+  </windowclass>
+</root>

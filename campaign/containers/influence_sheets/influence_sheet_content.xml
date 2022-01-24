@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="influence_sheet_content">
+    <placement>
+      <size height="327" width="330" />
+    </placement>
+    <script>
+function onInit()
+	update();
+end
+function update()
+	local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+	str_description.setReadOnly(bReadOnly);
+end
+</script>
+    <sheetdata>
+      <stringcontrol name="lbl_description">
+        <bounds>11,4,75,20</bounds>
+        <static textres="influence_sheet_content_lbl_description_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringfield name="str_description">
+        <frame>
+          <name>fielddark</name>
+          <offset>7,5,7,5</offset>
+        </frame>
+        <anchored>
+          <left offset="19" />
+          <right offset="-15" />
+          <top offset="30" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+      </stringfield>
+      <line_column name="ctrl_line1">
+        <anchored>
+          <left offset="7" />
+          <right offset="-9" />
+          <top offset="11" anchor="bottom" parent="str_description" relation="current" />
+          <size>
+            <height>2</height>
+          </size>
+        </anchored>
+      </line_column>
+    </sheetdata>
+  </windowclass>
+</root>

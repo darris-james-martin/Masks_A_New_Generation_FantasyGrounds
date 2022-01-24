@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="client_ct_entry">
+    <frame>ctentrybox</frame>
+    <placement>
+      <size height="137" width="435" />
+    </placement>
+    <script>
+function onInit()
+	onFactionChanged();
+end
+
+function updateDisplay()
+	local sFaction = friendfoe.getStringValue();
+
+	local sOptCTSI = OptionsManager.getOption("CTSI");
+	local bShowInit = ((sOptCTSI == "friend") and (sFaction == "friend")) or (sOptCTSI == "on");
+	initresult.setVisible(bShowInit);
+	
+	if active.getValue() == 1 then
+		name.setFont("sheetlabel");
+		nonid_name.setFont("sheetlabel");
+
+		if sFaction == "friend" then
+			setFrame("ctentrybox_friend_active");
+		elseif sFaction == "neutral" then
+			setFrame("ctentrybox_neutral_active");
+		elseif sFaction == "foe" then
+			setFrame("ctentrybox_foe_active");
+		else
+			setFrame("ctentrybox_active");
+		end
+		
+		windowlist.scrollToWindow(self);
+	else
+		name.setFont("sheettext");
+		nonid_name.setFont("sheettext");
+
+		if sFaction == "friend" then
+			setFrame("ctentrybox_friend");
+		elseif sFaction == "neutral" then
+			setFrame("ctentrybox_neutral");
+		elseif sFaction == "foe" then
+			setFrame("ctentrybox_foe");
+		else
+			setFrame("ctentrybox");
+		end
+	end
+end
+
+function onActiveChanged()
+	updateDisplay();
+end
+
+function onFactionChanged()
+	updateDisplay();
+end
+
+function onIDChanged()
+	local nodeRecord = getDatabaseNode();
+	local sClass = DB.getValue(nodeRecord, "link", "npc", "");
+	if sClass == "npc" then
+		local bID = LibraryData.getIDState("npc", nodeRecord, true);
+		name.setVisible(bID);
+		nonid_name.setVisible(not bID);
+	else
+		name.setVisible(true);
+		nonid_name.setVisible(false);
+	end
+end
+
+function onDrop(x, y, dragdata)
+	--Debug.chat("onDrop",dragdata);
+	local sType = dragdata.getType();
+	--Debug.chat("sType",sType);
+	
+	if sType == "teamPoint" and str_char_type.getValue() == "charsheet" then
+		--Debug.chat("sType",sType,"str_char_type.getValue()",str_char_type.getValue());
+		local nodeAddTeam = num_add_team.getDatabaseNode();
+		local nAddTeam = num_add_team.getValue() + 1;
+		--Debug.chat("nodeAddTeam",nodeAddTeam,"nAddTeam",nAddTeam);
+		RulesetWizard.changeDBValueOOB(nodeAddTeam, nAddTeam);
+		--addTeam();			
+	end
+end
+
+function addTeam()
+	--Debug.chat("addTeam()");
+	local nodeChar = link.getTargetDatabaseNode();
+	if nodeChar then
+		local nodeCharOngoing = nodeChar.getChild("wl_ongoing_effects");
+		local bAddChild = true;
+		for sClass,rRecord in pairs(nodeCharOngoing.getChildren()) do
+			--Debug.chat("sClass: ",sClass," rRecord: ",rRecord);
+			if rRecord.getChild("name").getValue() == "Added Team Point" then
+				bAddChild = false;
+				local nOngoing = rRecord.getChild("num_ongoing").getValue() + 1;
+				rRecord.getChild("num_ongoing").setValue(nOngoing);				
+			end
+		end
+		
+		--add child
+		if bAddChild then
+			local nodeChild = nodeCharOngoing.createChild();
+			--Debug.chat("nodeChild",nodeChild);
+			DB.setValue(nodeChild, "name", "string", "Added Team Point");
+			DB.setValue(nodeChild, "num_ongoing", "number", 1);
+			
+			--nodeChild.getChild("name").setValue("Added Team Point");
+			--nodeChild.getChild("num_ongoing").setValue(1);
+		end
+	end
+end
+</script>
+    <sheetdata>
+      <hidden_record_isidentified name="isidentified">
+        <bounds>595,1,40,40</bounds>
+        <invisible />
+      </hidden_record_isidentified>
+      <hlink_clientct name="link">
+        <bounds>642,6,20,20</bounds>
+        <invisible />
+      </hlink_clientct>
+      <stringfield name="tokenrefid">
+        <bounds>669,8,20,20</bounds>
+        <invisible />
+        <lineoffset default="on">2</lineoffset>
+      </stringfield>
+      <stringfield name="tokenrefnode">
+        <bounds>700,8,20,20</bounds>
+        <invisible />
+        <lineoffset default="on">2</lineoffset>
+      </stringfield>
+      <number name="tokenvis">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>752,3,39,30</bounds>
+        <invisible />
+      </number>
+      <buttonfield name="active">
+        <bounds>0,0,33,40</bounds>
+        <readonly />
+        <icon normal="ct_passive" />
+        <state icon="ct_passive" />
+        <state icon="ct_active" />
+        <script>
+function onValueChanged()
+    local bActive = (getValue() == 1);
+    
+    window.onActiveChanged(bActive);
+
+    if bActive and OptionsManager.isOption("CMAT", "on") then
+        CombatManager.centerOnToken(window.getDatabaseNode(), false);
+    end
+end
+</script>
+      </buttonfield>
+      <tokenfield name="token">
+        <bounds>27,5,25,25</bounds>
+        <readonly />
+        <nodrag />
+        <empty>token_empty</empty>
+        <script file="ct/scripts/ct_token.lua" />
+      </tokenfield>
+      <buttoncontrol name="activateeffects">
+        <bounds>-30,8,20,20</bounds>
+        <icon normal="button_effect_down" />
+        <state tooltipres="client_ct_entry_activateeffects_statetooltip_Effects" icon="button_effect" />
+        <state icon="button_effect_down" />
+        <script>
+function onValueChanged()
+    local bShow = (window.activateeffects.getValue() == 1);
+    
+    window.effecticon.setVisible(bShow);
+    window.sub_effects.setVisible(bShow);
+
+    window.effect_summary.onEffectsChanged();
+end
+
+</script>
+      </buttoncontrol>
+      <button_faction name="friendfoe">
+        <bounds>-55,9,20,20</bounds>
+        <icon normal="ct_faction_neutral" />
+        <script>
+function onValueChanged()
+    window.onFactionChanged();
+end
+
+</script>
+      </button_faction>
+      <number name="initresult">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>820,4,47,30</bounds>
+        <invisible />
+        <readonly />
+        <nodrag />
+        <hideonvalue>0</hideonvalue>
+        <script>
+function onValueChanged()
+    window.windowlist.applySort();
+end
+
+</script>
+      </number>
+      <stringfield name="name">
+        <bounds>59,11,-148,20</bounds>
+        <tabtarget>
+          <next>initresult</next>
+        </tabtarget>
+        <readonly />
+        <lineoffset default="on">2</lineoffset>
+      </stringfield>
+      <stringfield name="nonid_name">
+        <bounds>59,11,-148,20</bounds>
+        <tabtarget>
+          <next>initresult</next>
+        </tabtarget>
+        <invisible />
+        <readonly />
+        <lineoffset default="on">2</lineoffset>
+        <empty textres="library_recordtype_empty_nonid_npc"></empty>
+      </stringfield>
+      <genericcontrol name="effecticon">
+        <anchored>
+          <left offset="60" />
+          <top offset="11" anchor="bottom" parent="token" relation="current" />
+          <size>
+            <width>20</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <invisible />
+        <icon>button_effect_down</icon>
+      </genericcontrol>
+      <subwindow name="sub_effects">
+        <frame>
+          <name>ct_subgroupbox</name>
+          <offset>8,8,8,8</offset>
+        </frame>
+        <anchored>
+          <left offset="87" />
+          <right offset="-33" />
+          <top offset="8" anchor="bottom" parent="token" relation="relative" />
+        </anchored>
+        <class>clientct_effects</class>
+      </subwindow>
+      <stringcontrol name="target_summary">
+        <anchored>
+          <left offset="64" />
+          <right offset="-27" />
+          <top offset="5" anchor="bottom" parent="token" relation="relative" />
+          <size>
+            <height>18</height>
+          </size>
+        </anchored>
+        <invisible />
+        <multilinespacing>16</multilinespacing>
+        <font>sheettext</font>
+        <script file="ct/scripts/ct_target_summary.lua" />
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="effect_summary">
+        <anchored>
+          <left offset="64" />
+          <right offset="-27" />
+          <top offset="5" anchor="bottom" parent="token" relation="relative" />
+          <size>
+            <height>18</height>
+          </size>
+        </anchored>
+        <invisible />
+        <multilinespacing>16</multilinespacing>
+        <font>sheettext</font>
+        <script file="ct/scripts/ct_effect_summary.lua" />
+        <readonly />
+      </stringcontrol>
+      <genericcontrol name="bottom_spacer">
+        <anchored>
+          <left offset="33" />
+          <top offset="5" anchor="bottom" parent="effect_summary" relation="relative" />
+          <size>
+            <width>40</width>
+            <height>5</height>
+          </size>
+        </anchored>
+      </genericcontrol>
+      <button_iconcycler name="ic_health_bar">
+        <bounds>-118,3,60,30</bounds>
+        <parameters>
+          <icons>health_bar_0|health_bar_12|health_bar_25|health_bar_38|health_bar_50|health_bar_62|health_bar_75|health_bar_83|health_bar_95|health_bar_100</icons>
+          <values>0|12|25|38|50|62|75|83|95|100</values>
+          <tooltipsres>client_ct_entry_ic_health_bar_Tooltip_0|client_ct_entry_ic_health_bar_Tooltip_12|client_ct_entry_ic_health_bar_Tooltip_25|client_ct_entry_ic_health_bar_Tooltip_38|client_ct_entry_ic_health_bar_Tooltip_50|client_ct_entry_ic_health_bar_Tooltip_62|client_ct_entry_ic_health_bar_Tooltip_75|client_ct_entry_ic_health_bar_Tooltip_83|client_ct_entry_ic_health_bar_Tooltip_95|client_ct_entry_ic_health_bar_Tooltip_100</tooltipsres>
+          <nodefault />
+        </parameters>
+      </button_iconcycler>
+      <button_iconcycler name="ic_turn_complete">
+        <bounds>-143,9,20,20</bounds>
+        <parameters>
+          <icons>button_bubble_off|button_bubble_on</icons>
+          <values>1|2</values>
+          <tooltipsres>client_ct_entry_ic_turn_complete_Tooltip_1|client_ct_entry_ic_turn_complete_Tooltip_2</tooltipsres>
+          <nodefault />
+        </parameters>
+      </button_iconcycler>
+      <stringfield name="str_char_type">
+        <bounds>728,7,20,20</bounds>
+        <invisible />
+        <lineoffset default="on">2</lineoffset>
+      </stringfield>
+      <number_ct_crosslink name="num_add_team">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>870,2,25,30</bounds>
+        <tabtarget>
+          <prev>nonid_name</prev>
+        </tabtarget>
+        <invisible />
+        <hideonvalue>0</hideonvalue>
+      </number_ct_crosslink>
+      <number_ct_crosslink name="num_damage_pcnt">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>792,2,25,30</bounds>
+        <tabtarget>
+          <prev>nonid_name</prev>
+        </tabtarget>
+        <invisible />
+        <hideonvalue>0</hideonvalue>
+        <script>
+
+function onValueChanged()
+	local index = 0;
+	local nPercent = getValue();
+	
+	if nPercent &gt;=1.00 then index = 10; 
+	elseif nPercent &gt;=0.92 then index = 9;
+	elseif nPercent &gt;= 0.85 then index = 8;
+	elseif nPercent &gt;= 0.75 then index = 7;
+	elseif nPercent &gt;= 0.60 then index = 6;
+	elseif nPercent &gt;= 0.50 then index = 5;
+	elseif nPercent &gt;= 0.35 then index = 4;
+	elseif nPercent &gt;= 0.25 then index = 3;
+	elseif nPercent &gt; 0 then index = 2;
+	else index = 1; 
+	end
+	
+	window.ic_health_bar.setIndex(index);
+	--Debug.chat("nPercent",nPercent,"index",index);
+end
+
+</script>
+      </number_ct_crosslink>
+    </sheetdata>
+  </windowclass>
+</root>

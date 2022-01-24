@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+    <!-- 
+        If initresult is removed, set string_ctname, right parent to:
+  
+        <right parent="rightanchor" anchor="left" relation="relative" offset="-100" />
+        
+        start at -100, then play from there. I can't figure out how to get the Host to anchor to anything else like the client one.
+    -->
+    <template name="string_ctname" merge="replace">
+		<string_ct>
+			<anchored height="20">
+				<top parent="active_spacer_top" anchor="bottom"  relation="relative" offset="10" />
+				<left parent="token" anchor="right" offset="5" />
+				<right parent="initresult" anchor="left" relation="relative" offset="-10" />
+			</anchored>
+			<tabtarget next="initresult" />
+			<lineoffset default="off"></lineoffset>
+			<script file="ct/scripts/ct_name.lua" />
+		</string_ct>
+	</template>
+	
+	<!-- This is to display the name on the client sheet. -->
+	<template name="string_clientct_name">
+		<stringu name="name">
+			<anchored height="20">
+				<top parent="active_spacer_top" anchor="bottom" relation="relative" offset="10" />
+				<left parent="token" anchor="right" offset="5" />
+				<right parent="rightanchor_name" anchor="left" relation="relative" offset="-10" />
+			</anchored>
+			<readonly />
+			<lineoffset default="off"></lineoffset>
+		</stringu>
+	</template>
+	
+	
+	<!--Button to display action list-->
+	<template name="button_ctentry_activateaction">
+        <buttoncontrol name="activateaction">
+				<tooltip textres="ct_tooltip_offense" />
+				<state icon="button_sword" />
+				<state icon="button_sword_down" />				
+			</buttoncontrol>
+	</template>
+	
+	<!--same as idelete, but always visible-->
+	<template name="button_idelete_visible">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<state icon="button_delete" tooltipres="button_delete" />
+			<state icon="button_deleteconfirm" tooltipres="button_deleteconfirm" />
+			<tooltip textres="button_delete" />
+			<script>
+				function onButtonPress()
+					if getValue() == 0 then
+						if window.delete then
+							window.delete();
+						else
+							window.getDatabaseNode().delete();
+						end
+					end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+</root>

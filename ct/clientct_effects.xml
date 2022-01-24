@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="clientct_effects">
+    <placement>
+      <size height="30" width="430" />
+    </placement>
+    <script>
+function setEffectsVisible(v)
+
+	effects_iadd.setVisible(v);
+	for _,w in pairs(effects.getWindows()) do
+		w.idelete.setValue(0);
+	end
+
+end
+</script>
+    <sheetdata>
+      <windowlist name="effects">
+        <anchored>
+          <left offset="0" />
+          <right offset="0" />
+          <top offset="0" />
+        </anchored>
+        <class>clientct_effect</class>
+        <datasource>.effects</datasource>
+        <allowcreate />
+        <noscroll />
+        <script file="ct/scripts/clientct_effectlist.lua" />
+      </windowlist>
+      <genericcontrol name="effects_spacer">
+        <bounds>0,0,10,25</bounds>
+      </genericcontrol>
+    </sheetdata>
+  </windowclass>
+</root>

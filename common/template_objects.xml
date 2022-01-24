@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+    <template name="button_record_locked_local">
+		<buttonfield name="locked">
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="0" />
+			</anchored>
+			<state icon="padlock_open" tooltipres="tooltip_unlock" />
+			<state icon="padlock_closed" tooltipres="tooltip_lock" />
+			<script file="common/scripts/button_record_locked_local.lua" />
+		</buttonfield>
+	</template>
+	<template name="button_small_text">
+		<buttoncontrol>
+			<anchored height="20" />
+			<frame name="button_blank" offset="2,2,2,2" />
+			<stateframe>
+				<pressed name="button_blank_down" offset="2,2,2,2" nobaseframe="true" />
+			</stateframe>
+			<font>dosis_small</font>
+			<pressed offset="1,1" />
+		</buttoncontrol>
+	</template>
+	
+</root>
+
+

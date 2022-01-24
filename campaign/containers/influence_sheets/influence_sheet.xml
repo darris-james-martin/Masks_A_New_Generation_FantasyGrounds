@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Template for Containers
+  This is the Move Container. It is where the characters will store their combat manuvers.
+-->
+
+<root>
+	<!-- Container -->
+	<windowclass name="influence_sheet">
+		<frame>referencepage</frame>
+		<placement>
+			<size width="355" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="355" height="350" />
+			<dynamic />
+		</sizelimits>
+		<tooltip field="name" />
+		<!-- <minimize>minimized_npc</minimize>
+		<nodelete /> -->
+		
+		<script file="campaign/containers/influence_sheets/scripts/influence_sheet.lua" />
+
+		<!-- subwindows -->
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>influence_sheet_header</class>
+			</sub_record_header>
+			
+			<subwindow name="content">
+				<bounds>10,55,-10,-10</bounds> <!-- <bounds>10,55,-10,284</bounds> -->
+				<class>influence_sheet_content</class>
+				<activate />
+			</subwindow>
+			<!-- <scrollbarcontrol name="sb_content">
+				<frame>
+					<name>scrollbar_base</name>
+					<offset>0,12,0,12</offset>
+				</frame>
+					<bounds>-25,65,20,245</bounds>
+				<target>content</target>
+				<normal name="scrollbutton_normal">
+					<minimum height="scrollbutton_normal" />
+				</normal>
+			</scrollbarcontrol> -->
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+
+	<!-- Header -->
+	<windowclass name="influence_sheet_header">
+		<margins control="0,0,0,7" />
+		<script file="campaign/containers/influence_sheets/scripts/influence_sheet_header.lua" />
+		
+		<!-- Objects: link on left, then right anchor, then go backwards. -->
+		<sheetdata>
+			<link_record_header_id name="link">
+				<class>influence_sheet</class>
+			</link_record_header_id>
+
+			<anchor_record_header_right name="rightanchor" />			
+			<!-- <button_record_isidentified name="isidentified" /> -->
+			
+			<icon_record_locked />
+			<button_record_locked />
+			<string_record_name_id name="name" />
+			<!--<string_record_name_id name="nonid_name">
+				<empty textres="library_recordtype_empty_nonid_move" />
+				<invisible />
+			</string_record_name_id> -->
+		</sheetdata>
+	</windowclass>
+</root>

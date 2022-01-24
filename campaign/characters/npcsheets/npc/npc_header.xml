@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="npc_header">
+    <placement>
+      <size height="35" width="310" />
+    </placement>
+    <script>
+function onInit()
+    update();
+end
+function update()
+    local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+    name.setReadOnly(bReadOnly);    
+end
+</script>
+    <sheetdata>
+      <link_record_header_id name="LinkField1">
+        <bounds>5,8,20,20</bounds>
+        <class>npc</class>
+      </link_record_header_id>
+      <button_record_isidentified name="CustomControl2">
+        <bounds>-63,6,20,20</bounds>
+      </button_record_isidentified>
+      <icon_record_locked name="lock_icon">
+        <bounds>-93,7,20,20</bounds>
+      </icon_record_locked>
+      <button_record_locked name="lock_button">
+        <bounds>-91,7,20,20</bounds>
+      </button_record_locked>
+      <genericcontrol name="IconControl1">
+        <frame>
+          <name>groupbox</name>
+        </frame>
+        <bounds>26,0,-97,33</bounds>
+      </genericcontrol>
+      <stringfield name="name">
+        <bounds>44,8,-115,20</bounds>
+      </stringfield>
+      <tokenfield name="token">
+        <bounds>-36,4,25,25</bounds>
+        <empty>token_empty</empty>
+        <script>
+function onDoubleClick(x, y)
+    CombatManager.openMap(window.getDatabaseNode());
+end
+</script>
+      </tokenfield>
+    </sheetdata>
+  </windowclass>
+</root>

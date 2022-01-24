@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+	<template name="rsw_combobox">
+		<simplestring>
+			<frame>
+				<name>fieldlight</name>
+				<offset>7,5,7,5</offset>
+			</frame>
+			<readonly />
+			<listdirection mergerule="replace">down</listdirection>
+			<buttonoffset mergerule="replace">0,1</buttonoffset>
+			<script file="rulesetwizard/rswcombobox.lua"/>
+		</simplestring>
+	</template>
+</root>

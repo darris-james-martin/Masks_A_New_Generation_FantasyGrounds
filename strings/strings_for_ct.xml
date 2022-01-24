@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+
+	<string name="ct_tooltip_actionadd">Add Action</string>
+	<string name="ct_not_open">Please add your character to the Combat Tracker before rolling.</string>
+	<string name="ct_move_not_custom">Move is not Custom, to share this with player, just drop it on thier portrait.</string>
+	
+	
+</root>

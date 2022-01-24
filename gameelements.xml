@@ -1,0 +1,44 @@
+<root merge="join">
+    <distance>
+		<base>5</base>
+		<diagmult>1.5</diagmult>
+		<suffix>'</suffix>
+	</distance>
+	
+<!-- Desktop Dice -->
+	<die name="d6">
+		<icon>d6icon</icon>
+		<position>250,-68</position>
+	</die>
+	<die name="d10" merge="delete">
+		<icon>d10icon</icon>
+		<position>650,-68</position>
+	</die>
+
+	
+	
+	<die name="dF" merge="delete">
+		<icon>d6icon</icon>
+		<position>600,-68</position>
+	</die>
+	<die name="d4" merge="delete">
+		<icon>d4icon</icon>
+		<position>550,-68</position>
+	</die>
+	
+	<die name="d8" merge="delete">
+		<icon>d8icon</icon>
+		<position>450,-68</position>
+	</die>
+	
+	<die name="d12" merge="delete">
+		<icon>d12icon</icon>
+		<position>350,-68</position>
+	</die>
+	<die name="d20" merge="delete">
+		<icon>d20icon</icon>
+		<position>300,-68</position>
+	</die>
+        
+	
+</root>

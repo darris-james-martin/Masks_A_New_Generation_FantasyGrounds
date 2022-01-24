@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="ongoing_detail">
+    <placement>
+      <size height="30" width="393" />
+    </placement>
+    <sheetdata>
+      <genericcontrol name="leftControl">
+        <bounds>1,1,10,10</bounds>
+      </genericcontrol>
+      <genericcontrol name="rightControl">
+        <bounds>-10,19,10,10</bounds>
+      </genericcontrol>
+      <genericcontrol name="ic_background">
+        <anchored>
+          <right anchor="left" parent="rightControl" offset="5" relation="relative" height="35" />
+          <left anchor="left" parent="leftControl" offset="2" relation="relative" />
+          <top anchor="top" parent="leftControl" offset="5" relation="relative" />
+          <bottom anchor="bottom" parent="rightControl" offset="5" relation="relative" />
+        </anchored>
+        <backcolor>#FFA0A0A0</backcolor>
+      </genericcontrol>
+      <linkfield name="link">
+        <bounds>-28,11,20,20</bounds>
+        <description>
+          <field>name</field>
+        </description>
+        <class>ongoing_sheet</class>
+      </linkfield>
+      <number name="num_ongoing">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>-62,6,30,25</bounds>
+        <tooltip textres="ongoing_detail_num_ongoing_Tooltip" />
+        <script>
+
+function onDoubleClick(x, y)
+	local value = getValue();
+	local nHold = window.num_holds.getValue();
+	local nodeChar = window.windowlist.window.getDatabaseNode();
+	local sDesc = window.name.getValue();
+	
+	if value &gt; 0 then
+		ModifierStack.addSlot(sDesc, value);
+					
+		local msg = 
+		{
+			font = "narratorfont", 
+			mode = "ooc",
+			icon = "portrait_" .. nodeChar.getName() .. "_chat";
+			text = nodeChar.getChild("name").getValue()..Interface.getString("charsheet_use_ongoing").. sDesc;
+		}
+		Comm.deliverChatMessage(msg);
+	end
+	
+	if nHold &gt; 0 then
+		window.num_holds.checkHold();
+	end
+	
+	
+end
+
+</script>
+      </number>
+      <number name="num_holds">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>-92,6,30,25</bounds>
+        <tooltip textres="ongoing_detail_num_holds_Tooltip" />
+        <script>
+
+function onDoubleClick(x, y)
+	checkHold();
+end
+
+function checkHold()
+	local value = getValue();
+	local nodeChar = window.windowlist.window.getDatabaseNode();
+	local sDesc = window.name.getValue();
+	
+	if value &gt; 1 then
+		useHold(value,nodeChar,sDesc);
+	else
+		useHold(value,nodeChar,sDesc);
+		local node = window.getDatabaseNode();
+		node.delete();
+		local msg = 
+	{
+		font = "narratorfont", 
+		mode = "ooc",		
+		text = Interface.getString("charsheet_use_hold_last"),
+	}
+	Comm.deliverChatMessage(msg);
+	end
+end
+
+function useHold(value,nodeChar,sDesc)
+	value = math.max(value-1,0);
+	setValue(value);
+				
+	local msg = 
+	{
+		font = "narratorfont", 
+		mode = "ooc",
+		icon = "portrait_" .. nodeChar.getName() .. "_chat";
+		text = nodeChar.getChild("name").getValue()..Interface.getString("charsheet_use_hold").. sDesc,
+	}
+	Comm.deliverChatMessage(msg);
+end
+
+</script>
+      </number>
+      <stringfield name="name">
+        <anchored>
+          <top anchor="bottom" parent="leftControl" offset="3" relation="relative" height="20" />
+          <right anchor="left" parent="num_holds" offset="-8" relation="relative" />
+          <left anchor="left" parent="ic_background" offset="2" relation="relative" />
+        </anchored>
+        <lineoffset default="on">2</lineoffset>
+      </stringfield>
+      <stringfield name="str_description">
+        <bounds>433,2,25,20</bounds>
+        <invisible />
+        <lineoffset default="on">2</lineoffset>
+      </stringfield>
+    </sheetdata>
+  </windowclass>
+</root>

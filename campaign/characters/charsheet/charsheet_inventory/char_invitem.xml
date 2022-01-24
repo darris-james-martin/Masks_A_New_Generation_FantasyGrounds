@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="char_invitem">
+    <placement>
+      <size height="24" width="531" />
+    </placement>
+    <script>
+function onInit()
+	getDatabaseNode().onDelete = onDelete;
+end
+function onDelete(node)
+	ItemManager.onCharRemoveEvent(node);
+end
+</script>
+    <sheetdata>
+      <genericcontrol name="rightcontrol">
+        <bounds>-10,-10,10,10</bounds>
+        <invisible />
+      </genericcontrol>
+      <genericcontrol name="leftcontrol">
+        <bounds>0,0,10,10</bounds>
+        <invisible />
+      </genericcontrol>
+      <number_charinv name="count">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>0,0,35,25</bounds>
+        <tabtarget>
+          <next>str_display_name</next>
+        </tabtarget>
+        <default>1</default>
+      </number_charinv>
+      <button_idelete name="idelete">
+        <bounds>-22,2,20,20</bounds>
+        <font>button-white</font>
+      </button_idelete>
+      <linkfield name="shortcut">
+        <bounds>-45,2,20,20</bounds>
+        <readonly />
+        <class>item</class>
+      </linkfield>
+      <button_char_inv_carried name="carried">
+        <bounds>-67,2,20,20</bounds>
+        <font>button-white</font>
+      </button_char_inv_carried>
+      <number_charinv name="weight">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>-105,0,35,25</bounds>
+        <tabtarget>
+          <prev>location</prev>
+        </tabtarget>
+        <delaykeyupdate />
+        <delaykeyupdate />
+      </number_charinv>
+      <string_charinvloc name="location">
+        <bounds>-188,3,80,20</bounds>
+        <tabtarget>
+          <next>weight</next>
+          <prev>str_display_name</prev>
+        </tabtarget>
+        <lineoffset default="on">2</lineoffset>
+      </string_charinvloc>
+      <string_charinvname name="str_display_name">
+        <anchored>
+          <top anchor="top" parent="leftcontrol" offset="5" relation="relative" height="20" />
+          <left anchor="right" parent="count" offset="5" relation="relative" />
+          <right anchor="left" parent="location" offset="-5" relation="relative" />
+        </anchored>
+        <tabtarget>
+          <next>location</next>
+          <prev>count</prev>
+        </tabtarget>
+        <lineoffset default="on">2</lineoffset>
+        <script>
+
+function onValueChanged()
+	local isIDd = window.isidentified.getValue() == 1;
+	
+	if isIDd then
+		window.name.setValue(getValue());
+	else
+		window.nonid_name.setValue(getValue());
+	end
+end
+
+</script>
+      </string_charinvname>
+      <stringfield name="name">
+        <anchored>
+          <top anchor="top" parent="leftcontrol" offset="2" />
+          <left anchor="right" parent="rightcontrol" offset="20" relation="relative" />
+          <bottom anchor="bottom" parent="rightcontrol" offset="-2" relation="relative" />
+          <right anchor="right" parent="rightcontrol" offset="25" relation="relative" />
+        </anchored>
+        <invisible />
+        <lineoffset default="on">2</lineoffset>
+      </stringfield>
+      <stringfield name="nonid_name">
+        <anchored>
+          <top anchor="top" parent="leftcontrol" offset="2" />
+          <left anchor="right" parent="rightcontrol" offset="20" relation="relative" />
+          <bottom anchor="bottom" parent="rightcontrol" offset="-2" relation="relative" />
+          <right anchor="right" parent="rightcontrol" offset="25" relation="relative" />
+        </anchored>
+        <invisible />
+        <lineoffset default="on">2</lineoffset>
+      </stringfield>
+      <button_record_isidentified name="isidentified">
+        <bounds>550,7,10,10</bounds>
+        <invisible />
+        <font>button-white</font>
+        <script>
+
+function onValueChanged()
+	--Debug.chat("isidentified",getValue());
+	local value = getValue();
+	if value == 1 then
+		window.str_display_name.setValue(window.name.getValue());
+	else
+		window.str_display_name.setValue(window.nonid_name.getValue());
+	end
+end
+
+</script>
+      </button_record_isidentified>
+    </sheetdata>
+  </windowclass>
+</root>

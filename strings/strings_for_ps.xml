@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+
+	<string name="ps_message_xpaward">Awarded XP to the Party.</string>
+	<string name="ps_message_eachxpaward"> has earned experence: </string>
+	
+	
+</root>

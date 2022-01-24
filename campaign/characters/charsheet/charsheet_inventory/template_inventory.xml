@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+    <!-- 
+        These are not really templates. These are a hack so I can get fields sources. 
+    -->
+    <template name="num_coinamount1">
+		<number_dropadd source="coins.slot1.amount">
+			<description field="name" />
+		</number_dropadd>
+	</template>
+	<template name="str_coinname1">
+		<stringu source="coins.slot1.name">			
+		</stringu>
+	</template>
+	<template name="num_coinamount2">
+		<number_dropadd source="coins.slot2.amount">
+			<description field="name" />
+		</number_dropadd>
+	</template>
+	<template name="str_coinname2">
+		<stringu source="coins.slot2.name">			
+		</stringu>
+	</template>
+	<template name="num_coinamount3">
+		<number_dropadd source="coins.slot3.amount">
+			<description field="name" />
+		</number_dropadd>
+	</template>
+	<template name="str_coinname3">
+		<stringu source="coins.slot3.name">			
+		</stringu>
+	</template>
+	<template name="num_coinamount4">
+		<number_dropadd source="coins.slot4.amount">
+			<description field="name" />
+		</number_dropadd>
+	</template>
+	<template name="str_coinname4">
+		<stringu source="coins.slot4.name">			
+		</stringu>
+	</template>
+	<template name="num_encumbranceload">
+		<simplenumber source="encumbrance.load">
+			<frame name="fieldlight" offset="7,5,7,5" />			
+		</simplenumber>
+	</template>
+	
+		
+	
+</root>

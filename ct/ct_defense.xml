@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="ct_defense">
+    <placement>
+      <size height="29" width="350" />
+    </placement>
+    <sheetdata>
+      <stringfield name="defenses">
+        <bounds>6,4,-6,20</bounds>
+        <lineoffset default="on">2</lineoffset>
+      </stringfield>
+    </sheetdata>
+  </windowclass>
+</root>

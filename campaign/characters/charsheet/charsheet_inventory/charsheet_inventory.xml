@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="charsheet_inventory">
+    <placement>
+      <size height="525" width="572" />
+    </placement>
+    <sheetdata>
+      <genericcontrol name="IconControl1">
+        <frame>
+          <name>groupbox</name>
+        </frame>
+        <bounds>1,0,-2,-154</bounds>
+      </genericcontrol>
+      <list_charinv name="inventorylist">
+        <bounds>10,34,-12,-164</bounds>
+      </list_charinv>
+      <scrollbarcontrol name="ScrollBar1">
+        <frame>
+          <name>scrollbar_base</name>
+          <offset>0,12,0,12</offset>
+        </frame>
+        <bounds>-22,46,20,-178</bounds>
+        <target>inventorylist</target>
+        <normal name="scrollbutton_normal">
+          <minimum height="scrollbutton_normal" />
+        </normal>
+      </scrollbarcontrol>
+      <stringcontrol name="Label1">
+        <bounds>22,12,10,20</bounds>
+        <static textres="charsheet_inventory_Label1_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="Label2">
+        <bounds>47,12,100,20</bounds>
+        <static textres="charsheet_inventory_Label2_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="Label3">
+        <bounds>-194,12,54,20</bounds>
+        <static textres="charsheet_inventory_Label3_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+      <button_iedit name="inventorylist_iedit">
+        <bounds>-35,11,20,20</bounds>
+        <target>inventorylist</target>
+      </button_iedit>
+      <button_iadd name="inventorylist_iadd">
+        <bounds>-60,11,20,20</bounds>
+        <target>inventorylist</target>
+      </button_iadd>
+      <stringcontrol name="Label4">
+        <bounds>-124,12,44,20</bounds>
+        <static textres="charsheet_inventory_Label4_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+      <genericcontrol name="IconControl2">
+        <frame>
+          <name>groupbox</name>
+        </frame>
+        <bounds>0,-151,275,150</bounds>
+      </genericcontrol>
+      <genericcontrol name="IconControl3">
+        <frame>
+          <name>groupbox</name>
+        </frame>
+        <bounds>-277,-152,275,150</bounds>
+      </genericcontrol>
+      <num_encumbranceload name="encumbranceload" merge="replace">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>175,-129,40,20</bounds>
+        <readonly />
+      </num_encumbranceload>
+      <stringcontrol name="Label5">
+        <bounds>26,-129,141,20</bounds>
+        <static textres="charsheet_inventory_Label5_LabelCaption" />
+        <font>sheetnumber</font>
+        <readonly />
+      </stringcontrol>
+      <num_coinamount2 name="coinamount2" merge="join">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>-248,-100,60,30</bounds>
+      </num_coinamount2>
+      <num_coinamount3 name="coinamount3" merge="join">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>-248,-70,60,30</bounds>
+      </num_coinamount3>
+      <num_coinamount4 name="coinamount4" merge="join">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>-248,-40,60,30</bounds>
+      </num_coinamount4>
+      <str_coinname2 name="coinname2" merge="join">
+        <bounds>-187,-95,87,20</bounds>
+        <lineoffset default="on">2</lineoffset>
+      </str_coinname2>
+      <str_coinname3 name="coinname3" merge="join">
+        <bounds>-187,-64,87,20</bounds>
+        <lineoffset default="on">2</lineoffset>
+      </str_coinname3>
+      <str_coinname4 name="coinname4" merge="join">
+        <bounds>-187,-34,87,20</bounds>
+        <lineoffset default="on">2</lineoffset>
+      </str_coinname4>
+      <stringcontrol name="Label6">
+        <bounds>-169,-145,71,20</bounds>
+        <center />
+        <static textres="charsheet_inventory_Label6_LabelCaption" />
+        <font>sheetnumber</font>
+        <readonly />
+      </stringcontrol>
+      <num_coinamount1 name="coinamount1" merge="replace">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>-248,-128,60,30</bounds>
+      </num_coinamount1>
+      <str_coinname1 name="coinname1" merge="replace">
+        <bounds>-187,-123,87,20</bounds>
+        <lineoffset default="on">2</lineoffset>
+      </str_coinname1>
+      <basicstring name="coinother" merge="join">
+        <bounds>-90,-139,71,127</bounds>
+        <multilinespacing>20</multilinespacing>
+      </basicstring>
+      <genericcontrol name="idelete_header" merge="replace">
+        <bounds>-10,11,20,20</bounds>
+        <disabled />
+      </genericcontrol>
+    </sheetdata>
+  </windowclass>
+</root>

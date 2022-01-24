@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+
+	<string name="charsheet_notes_description_notALink">Not a Link, drop a link here.</string>
+	<string name="charsheet_notes_description_moveLink">At this time FG can not move links. Manually drag and drop the URL Link to the open field next to 'Go'.</string>
+	<string name="npc_notes_image_badLink">Please drop an Image from FG in here.</string>
+	<string name="charsheet_label_limit">: Label is at its threshold, do not adjust either label and take a condition.</string>
+	<string name="charsheet_use_hold"> Uses Hold for </string>
+	<string name="charsheet_use_hold_last">No more available Holds, item removed.</string>
+	<string name="charsheet_use_ongoing"> Uses Ongoing effect for </string>
+	<string name="charsheet_use_influence"> Uses Influence they have for </string>
+	<string name="charsheet_use_influence_advantage"> Takes Advantage of the Influence they have on </string>
+	
+</root>

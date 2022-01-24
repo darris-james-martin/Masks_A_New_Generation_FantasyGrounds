@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="ct_attacks">
+    <placement>
+      <size height="29" width="350" />
+    </placement>
+    <sheetdata>
+      <stringfield name="attacks">
+        <bounds>6,4,-6,20</bounds>
+        <nodragselect />
+        <lineoffset default="on">2</lineoffset>
+        <script file="campaign/scripts/npc_roll.lua" />
+      </stringfield>
+    </sheetdata>
+  </windowclass>
+</root>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="ct_effects">
+    <placement>
+      <size height="56" width="430" />
+    </placement>
+    <script>
+function setEffectsVisible(v)
+
+	effects_iadd.setVisible(v);
+	for _,w in pairs(effects.getWindows()) do
+		w.idelete.setValue(0);
+	end
+
+end
+</script>
+    <sheetdata>
+      <windowlist name="effects">
+        <anchored>
+          <left offset="0" />
+          <right offset="0" />
+          <top offset="0" />
+        </anchored>
+        <class>ct_effect</class>
+        <datasource>.effects</datasource>
+        <allowcreate />
+        <noscroll />
+        <script file="ct/scripts/ct_effectlist.lua" />
+      </windowlist>
+      <button_iadd name="effects_iadd">
+        <anchored>
+          <right offset="-4" />
+          <top offset="2" anchor="bottom" parent="effects" relation="current" />
+          <size>
+            <width>20</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <tooltip textres="ct_effects_effects_iadd_Tooltip" />
+        <icon normal="button_add" />
+        <target>effects</target>
+      </button_iadd>
+    </sheetdata>
+  </windowclass>
+</root>

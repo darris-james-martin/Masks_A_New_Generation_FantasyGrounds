@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="combattracker_host">
+    <frame>ctbox</frame>
+    <placement>
+      <size height="400" width="599" />
+    </placement>
+    <nodelete />
+    <softclose />
+    <sizelimits resize="both">
+      <minimum width="599" height="400" />
+      <dynamic />
+    </sizelimits>
+    <sheetdata>
+      <windowtitlebar name="title">
+        <resource>Window_combattracker_host_Title</resource>
+      </windowtitlebar>
+      <genericcontrol name="frame_ctbox_host_header_visibility">
+        <frame>
+          <name>ct_groupbox</name>
+        </frame>
+        <bounds>20,28,40,35</bounds>
+      </genericcontrol>
+      <buttoncontrol name="button_global_visibility">
+        <bounds>30,35,20,20</bounds>
+        <icon normal="visibilityon" />
+        <state tooltipres="combattracker_host_button_global_visibility_statetooltip_Show all NPCs" icon="visibilityoff" />
+        <state tooltipres="combattracker_host_button_global_visibility_statetooltip_Hide all NPCs" icon="visibilityon" />
+        <font>button-white</font>
+        <script>
+function onValueChanged()
+    window.list.toggleVisibility();
+end
+
+</script>
+      </buttoncontrol>
+      <genericcontrol name="resize_ctbox">
+        <bounds>-24,-24,18,18</bounds>
+        <icon>window_resize</icon>
+      </genericcontrol>
+      <help_base name="button_helper">
+        <bounds>-64,8,24,24</bounds>
+        <icon normal="button_help" />
+        <font>button-white</font>
+        <urlres>help_tool_ct</urlres>
+      </help_base>
+      <close_base name="button_close">
+        <bounds>-40,8,24,24</bounds>
+        <icon normal="button_close" />
+        <font>button-white</font>
+      </close_base>
+      <windowlist name="list">
+        <bounds>0,68,-20,-54</bounds>
+        <class>ct_entry</class>
+        <datasource>.list</datasource>
+        <empty></empty>
+        <script>
+local enableglobaltoggle = true;
+local enablevisibilitytoggle = true;
+
+function onInit()
+	registerMenuItem(Interface.getString("list_menu_createitem"), "insert", 5);
+
+	Interface.onHotkeyActivated = onHotkey;
+	
+	onVisibilityToggle();
+	onEntrySectionToggle();
+
+	local node = getDatabaseNode();
+	DB.addHandler(DB.getPath(node, "*.name"), "onUpdate", onNameOrTokenUpdated);
+	DB.addHandler(DB.getPath(node, "*.nonid_name"), "onUpdate", onNameOrTokenUpdated);
+	DB.addHandler(DB.getPath(node, "*.isidentified"), "onUpdate", onNameOrTokenUpdated);
+	DB.addHandler(DB.getPath(node, "*.token"), "onUpdate", onNameOrTokenUpdated);
+end
+
+function onClose()
+	local node = getDatabaseNode();
+	DB.removeHandler(DB.getPath(node, "*.name"), "onUpdate", onNameOrTokenUpdated);
+	DB.removeHandler(DB.getPath(node, "*.nonid_name"), "onUpdate", onNameOrTokenUpdated);
+	DB.removeHandler(DB.getPath(node, "*.isidentified"), "onUpdate", onNameOrTokenUpdated);
+	DB.removeHandler(DB.getPath(node, "*.token"), "onUpdate", onNameOrTokenUpdated);
+end
+
+function onNameOrTokenUpdated()
+	for _,w in pairs(getWindows()) do
+		w.target_summary.onTargetsChanged();
+		
+		if w.sub_targeting.subwindow then
+			for _,wTarget in pairs(w.sub_targeting.subwindow.targets.getWindows()) do
+				wTarget.onRefChanged();
+			end
+		end
+		
+		if w.sub_effects.subwindow then
+            for _,wEffect in pairs(w.sub_effects.subwindow.effects.getWindows()) do
+                wEffect.target_summary.onTargetsChanged();
+            end
+        end
+	end
+end
+
+function addEntry(bFocus)
+	local w = createWindow();
+	if bFocus and w then
+		w.name.setFocus();
+	end
+	return w;
+end
+
+function onMenuSelection(selection)
+	if selection == 5 then
+		addEntry(true);
+	end
+end
+
+function onSortCompare(w1, w2)
+	return CombatManager.onSortCompare(w1.getDatabaseNode(), w2.getDatabaseNode());
+end
+
+function onHotkey(draginfo)
+	local sDragType = draginfo.getType();
+	if sDragType == "combattrackernextactor" then
+		CombatManager.nextActor();
+		return true;
+	elseif sDragType == "combattrackernextround" then
+		CombatManager.nextRound(1);
+		return true;
+	end
+end
+
+function toggleVisibility()
+	if not enablevisibilitytoggle then
+		return;
+	end
+		
+	local visibilityon = window.button_global_visibility.getValue();
+	for _,v in pairs(getWindows()) do
+		if v.friendfoe.getStringValue() ~= "friend" then
+			if visibilityon ~= v.tokenvis.getValue() then
+				v.tokenvis.setValue(visibilityon);
+			end
+		end
+	end
+end
+
+function toggleTargeting()
+	if not enableglobaltoggle then
+		return;
+	end
+	
+	local targetingon = window.button_global_targeting.getValue();
+	for _,v in pairs(getWindows()) do
+		v.activatetargeting.setValue(targetingon);
+	end
+end
+
+function toggleSpacing()
+	if not enableglobaltoggle then
+		return;
+	end
+	
+	local spacingon = window.button_global_spacing.getValue();
+	for _,v in pairs(getWindows()) do
+		v.activatespacing.setValue(spacingon);
+	end
+end
+
+function toggleEffects()
+	if not enableglobaltoggle then
+		return;
+	end
+	
+	local effectson = window.button_global_effects.getValue();
+	for _,v in pairs(getWindows()) do
+		v.activateeffects.setValue(effectson);
+	end
+end
+
+function toggleAttacks()
+	if not enableglobaltoggle then
+		return;
+	end
+	
+	local attackson = window.button_global_attacks.getValue();
+	for _,v in pairs(getWindows()) do
+		v.activateattacks.setValue(attackson);
+	end
+end
+
+function toggleDefense()
+	if not enableglobaltoggle then
+		return;
+	end
+	
+	local defenseon = window.button_global_defense.getValue();
+	for _,v in pairs(getWindows()) do
+		v.activatedefense.setValue(defenseon);
+	end
+end
+
+function onVisibilityToggle()
+	local anyVisible = 0;
+	for _,v in pairs(getWindows()) do
+		if (v.friendfoe.getStringValue() ~= "friend") and (v.tokenvis.getValue() == 1) then
+			anyVisible = 1;
+		end
+	end
+	
+    enablevisibilitytoggle = false;
+	window.button_global_visibility.setValue(anyVisible);
+	enablevisibilitytoggle = true;
+end
+
+function onEntrySectionToggle()
+	local anyTargeting = 0;
+	local anySpacing = 0;
+	local anyEffects = 0;
+
+	for _,v in pairs(getWindows()) do
+		if v.activatetargeting.getValue() == 1 then
+			anyTargeting = 1;
+		end
+		if v.activatespacing.getValue() == 1 then
+			anySpacing = 1;
+		end
+		if v.activateeffects.getValue() == 1 then
+			anyEffects = 1;
+		end
+	end
+
+	enableglobaltoggle = false;
+	window.button_global_targeting.setValue(anyTargeting);
+	window.button_global_spacing.setValue(anySpacing);
+	window.button_global_effects.setValue(anyEffects);
+	enableglobaltoggle = true;
+end
+
+function onDrop(x, y, draginfo)
+	if draginfo.isType("shortcut") then
+		return CampaignDataManager.handleDrop("combattracker", draginfo);
+	end
+	
+	-- Capture any drops meant for specific CT entries
+	local win = getWindowAt(x,y);
+	if win then
+		local nodeWin = win.getDatabaseNode();
+		if nodeWin then
+			return CombatManager.onDrop("ct", nodeWin.getPath(), draginfo);
+		end
+	end
+end
+
+function resetTurns() 
+	-- reset all turn icons.
+	for nIdx,wWindow in pairs(getWindows()) do
+		--Debug.chat("nIdx",nIdx,"wWindow",wWindow);
+		wWindow.ic_turn_complete.setIndex(1);
+	end
+end
+</script>
+      </windowlist>
+      <stringcontrol name="label_name">
+        <bounds>61,39,59,20</bounds>
+        <center />
+        <color>#FFFFFFFF</color>
+        <static textres="combattracker_host_label_name_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="label_init">
+        <bounds>-287,39,39,20</bounds>
+        <center />
+        <color>#FFFFFFFF</color>
+        <static textres="combattracker_host_label_init_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+      <genericcontrol name="frame_ctbox_host_header_toggles">
+        <frame>
+          <name>ct_groupbox</name>
+        </frame>
+        <bounds>-179,32,139,36</bounds>
+      </genericcontrol>
+      <buttoncontrol name="button_global_targeting">
+        <bounds>-167,41,20,20</bounds>
+        <icon normal="button_section_targeting_down" />
+        <state icon="button_section_targeting" />
+        <state icon="button_section_targeting_down" />
+        <script>
+function onValueChanged()
+    window.list.toggleTargeting();
+end
+
+</script>
+      </buttoncontrol>
+      <buttoncontrol name="button_global_spacing">
+        <bounds>-143,41,20,20</bounds>
+        <icon normal="button_space_down" />
+        <state icon="button_space" />
+        <state icon="button_space_down" />
+        <script>
+function onValueChanged()
+    window.list.toggleSpacing();
+end
+
+</script>
+      </buttoncontrol>
+      <buttoncontrol name="button_global_effects">
+        <bounds>-119,41,20,20</bounds>
+        <icon normal="button_effect_down" />
+        <state icon="button_effect" />
+        <state icon="button_effect_down" />
+        <script>
+function onValueChanged()
+    window.list.toggleEffects();
+end
+
+</script>
+      </buttoncontrol>
+      <buttoncontrol name="button_global_attacks">
+        <bounds>-96,41,20,20</bounds>
+        <icon normal="button_sword_down" />
+        <state icon="button_sword" />
+        <state icon="button_sword_down" />
+        <script>
+function onValueChanged()
+    window.list.toggleAttacks();
+end
+
+</script>
+      </buttoncontrol>
+      <buttoncontrol name="button_global_defense">
+        <bounds>-72,42,20,20</bounds>
+        <icon normal="button_shield_down" />
+        <state icon="button_shield" />
+        <state icon="button_shield_down" />
+        <script>
+function onValueChanged()
+    window.list.toggleDefense();
+end
+
+</script>
+      </buttoncontrol>
+      <scrollbarcontrol name="scrollbar_list">
+        <frame>
+          <name>scrollbar_base</name>
+          <offset>0,12,0,12</offset>
+        </frame>
+        <bounds>-26,76,20,-66</bounds>
+        <target>list</target>
+        <normal name="scrollbutton_normal">
+          <minimum height="scrollbutton_normal" />
+        </normal>
+      </scrollbarcontrol>
+      <buttoncontrol name="button_ct_setactive">
+        <bounds>27,-53,33,40</bounds>
+        <cursor>
+          <hover>hand</hover>
+        </cursor>
+        <icon normal="ct_active" />
+        <activeicon>ct_active</activeicon>
+        <script>
+function onInit()
+    widget = addBitmapWidget(activeicon[1]);
+end
+
+function onDragStart(button, x, y, draginfo)
+    draginfo.setType("combattrackeractivation");
+    draginfo.setIcon(activeicon[1]);
+    widget.setVisible(false);
+    
+    return true;
+end
+
+function onDragEnd(draginfo)
+    widget.setVisible(true);
+end
+</script>
+      </buttoncontrol>
+      <buttoncontrol name="button_ct_nextactor">
+        <bounds>69,-46,33,26</bounds>
+        <tooltip textres="combattracker_host_button_ct_nextactor_Tooltip" />
+        <icon normal="button_ctnextactor" pressed="button_ctnextactor_down" />
+        <script>
+function onButtonPress()
+	--[[
+		1) search through all windows:
+			1) find lowest action current: set to right
+			2) find highest action total: set to right2
+		2) if last window:(i == #windows):
+			1) if cur ~= total: round = n-1
+		3) CombatManager.nextActor()
+	]]--
+    CombatManager.nextActor();
+end
+
+function onDragStart(button, x, y, draginfo)
+    draginfo.setType("combattrackernextactor");
+    draginfo.setIcon("button_ctnextactor");
+    
+    return true;
+end
+
+</script>
+      </buttoncontrol>
+      <button_ct_friendfoe name="button_ct_faction_friend">
+        <bounds>195,-42,20,20</bounds>
+        <tooltip textres="combattracker_host_button_ct_faction_friend_Tooltip" />
+        <icon>ct_faction_friend</icon>
+        <value>friend</value>
+      </button_ct_friendfoe>
+      <button_ct_friendfoe name="button_ct_faction_neutral">
+        <bounds>220,-42,20,20</bounds>
+        <tooltip textres="combattracker_host_button_ct_faction_neutral_Tooltip" />
+        <icon>ct_faction_neutral</icon>
+        <value>neutral</value>
+      </button_ct_friendfoe>
+      <button_ct_friendfoe name="button_ct_faction_foe">
+        <bounds>246,-42,20,20</bounds>
+        <tooltip textres="combattracker_host_button_ct_faction_foe_Tooltip" />
+        <icon>ct_faction_foe</icon>
+        <value>foe</value>
+      </button_ct_friendfoe>
+      <button_small_text name="button_ct_menu">
+        <bounds>26,15,40,11</bounds>
+        <tooltip textres="combattracker_host_button_ct_menu_Tooltip" />
+        <state textres="combattracker_host_button_ct_menu_ButtonCaption" />
+        <font>dosis_small</font>
+        <script file="ct/scripts/ct_menu.lua" />
+      </button_small_text>
+      <stringcontrol name="label_ct_host_rounds">
+        <bounds>-159,-42,39,20</bounds>
+        <color>#FFFFFFFF</color>
+        <static textres="combattracker_host_label_ct_host_rounds_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+      <simplenumber name="round">
+        <frame>
+          <name>ct_groupbox</name>
+          <offset>3,3,3,3</offset>
+        </frame>
+        <bounds>-113,-42,44,19</bounds>
+        <script>
+
+function onValueChanged()
+	window.list.resetTurns();
+end
+
+</script>
+      </simplenumber>
+      <button_ct_nextround name="button_ct_nextround">
+        <bounds>-66,-45,33,26</bounds>
+        <icon normal="button_ctnextround" />
+      </button_ct_nextround>
+      <buttoncontrol name="clientview">
+        <frame>
+          <name>buttonup</name>
+        </frame>
+        <bounds>-313,-47,60,30</bounds>
+        <state textres="combattracker_host_clientview_ButtonCaption" />
+        <stateframe>
+          <pressed name="buttonup" offset="-1,-1,-1,-1" nobaseframe="true" />
+        </stateframe>
+        <font>button-white</font>
+        <script>
+
+function onButtonPress()
+    Interface.openWindow("combattracker_client", "combattracker");
+end
+
+</script>
+      </buttoncontrol>
+      <button_small_text name="Button1">
+        <bounds>71,15,40,11</bounds>
+        <state textres="combattracker_host_Button1_ButtonCaption" />
+        <font>dosis_small</font>
+        <script>
+
+function onClickRelease(button, x, y)
+	local nodeList = window.list.getDatabaseNode();
+	for sListClass,rListRecord in pairs(nodeList.getChildren()) do
+        local nValue = rListRecord.getChild("num_init_trigger").getValue();
+        rListRecord.getChild("num_init_trigger").setValue((nValue+1)%2);        
+	end
+end
+
+</script>
+      </button_small_text>
+      <stringcontrol name="Label1">
+        <bounds>-244,39,39,20</bounds>
+        <center />
+        <color>#FFFFFFFF</color>
+        <static textres="combattracker_host_Label1_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+    </sheetdata>
+  </windowclass>
+</root>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="npc">
+    <frame>utilitybox</frame>
+    <placement>
+      <size height="549" width="500" />
+    </placement>
+    <sizelimits resize="both">
+      <minimum width="500" height="549" />
+      <dynamic />
+    </sizelimits>
+    <script>
+function onInit()
+    onLockChanged();
+    DB.addHandler(DB.getPath(getDatabaseNode(), "locked"), "onUpdate", onLockChanged);
+end
+function onClose()
+    DB.removeHandler(DB.getPath(getDatabaseNode(), "locked"), "onUpdate", onLockChanged);
+end
+function onLockChanged()
+    if header.subwindow then
+        header.subwindow.update();
+    end
+    if sw_npc_main.subwindow then
+        sw_npc_main.subwindow.update();
+    end
+    if sw_npc_notes.subwindow then
+        sw_npc_notes.subwindow.update();
+    end
+    update();
+end
+
+function update()
+    local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+    --num_gnosis_max.setReadOnly(bReadOnly);
+    
+end
+
+
+</script>
+    <sheetdata>
+      <subwindow name="header">
+        <bounds>23,21,-23,35</bounds>
+        <class>npc_header</class>
+        <activate />
+      </subwindow>
+      <buttongroup_tabs name="tabs" merge="replace">
+        <frame>
+          <name>tabs</name>
+        </frame>
+        <anchored>
+          <right offset="6" />
+          <top offset="51" />
+          <size>
+            <width>18</width>
+            <height>290</height>
+          </size>
+        </anchored>
+        <tab>
+          <icon>tab_main</icon>
+          <subwindow>sw_npc_main</subwindow>
+        </tab>
+        <tab>
+          <icon>tab_notes</icon>
+          <subwindow>sw_npc_notes</subwindow>
+        </tab>
+      </buttongroup_tabs>
+      <subwindow name="sw_npc_main" merge="replace">
+        <bounds>23,57,-27,-26</bounds>
+        <class>npc_main</class>
+        <activate />
+      </subwindow>
+      <subwindow name="sw_npc_notes" merge="replace">
+        <bounds>23,57,-27,-26</bounds>
+        <class>npc_notes</class>
+        <activate />
+      </subwindow>
+      <line_column name="CustomControl1">
+        <bounds>24,-24,-25,2</bounds>
+      </line_column>
+      <close_base name="button_close">
+        <frame>
+          <name>buttonup</name>
+        </frame>
+        <bounds>-24,0,24,24</bounds>
+        <icon normal="button_close" pressed="button_close_down" hover="button_close_hover" />
+        <font>button-white</font>
+      </close_base>
+      <stringcontrol name="Label3">
+        <bounds>623,32,29,20</bounds>
+        <invisible />
+        <static textres="npc_Label3_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+      <number name="space">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>652,29,40,25</bounds>
+        <invisible />
+        <default>1</default>
+      </number>
+      <stringcontrol name="Label4">
+        <bounds>611,59,41,20</bounds>
+        <invisible />
+        <static textres="npc_Label4_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+      <number name="reach">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>652,57,40,25</bounds>
+        <invisible />
+        <default>1</default>
+      </number>
+      <stringcontrol name="Label5">
+        <bounds>611,86,41,20</bounds>
+        <invisible />
+        <static textres="npc_Label5_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+      <stringfield name="senses">
+        <frame>
+          <name>fielddark</name>
+          <offset>5,2,5,2</offset>
+        </frame>
+        <anchored>
+          <left offset="657" />
+          <top offset="84" />
+          <size>
+            <width>58</width>
+          </size>
+        </anchored>
+        <invisible />
+        <multilinespacing>20</multilinespacing>
+      </stringfield>
+    </sheetdata>
+  </windowclass>
+</root>

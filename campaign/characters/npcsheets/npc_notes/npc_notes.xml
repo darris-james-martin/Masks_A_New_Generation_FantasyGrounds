@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="npc_notes">
+    <placement>
+      <size height="525" width="450" />
+    </placement>
+    <sheetdata>
+      <linkfield name="LinkField1">
+        <bounds>-26,9,20,20</bounds>
+        <allowdrop />
+        <script>
+
+function onDrop(x, y, dragdata)
+    --Debug.chat("dragdata: ",dragdata);
+    local linkNodePath = dragdata.getDatabaseNode().getPath();
+    --Debug.chat("linkNodePath: ",linkNodePath);
+    
+    --Error check
+    local linkType = string.match(linkNodePath, "%a+");
+    --Debug.chat("linkType: ",linkType);
+    if linkType ~= "image" then
+        crapOutText();
+        return;
+    end
+end
+
+function crapOutText()
+    local msg = 
+        {
+            font = "whisperfont", 
+            mode = "whisper",
+            icon = { "indicator_whisper" },
+            text = Interface.getString("npc_notes_image_badLink");
+        }
+        Comm.addChatMessage(msg);
+end
+</script>
+      </linkfield>
+      <stringcontrol name="Label1">
+        <bounds>-121,9,92,20</bounds>
+        <color>#FFFFFFFF</color>
+        <static textres="npc_notes_Label1_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <formattedtextfield name="FormattedText1">
+        <frame>
+          <name>fielddark</name>
+          <offset>8,8,8,8</offset>
+        </frame>
+        <bounds>8,89,-11,-13</bounds>
+      </formattedtextfield>
+      <line_column name="divider1">
+        <bounds>5,67,440,2</bounds>
+      </line_column>
+      <stringcontrol name="Label3">
+        <bounds>0,36,29,20</bounds>
+        <color>#FFFFFFFF</color>
+        <static textres="npc_notes_Label3_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+      <number name="space">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>32,35,40,25</bounds>
+        <default>1</default>
+      </number>
+      <stringcontrol name="Label4">
+        <bounds>79,36,41,20</bounds>
+        <color>#FFFFFFFF</color>
+        <static textres="npc_notes_Label4_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+      <number name="reach">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>122,35,40,25</bounds>
+        <default>1</default>
+      </number>
+      <stringcontrol name="Label5">
+        <bounds>164,36,43,20</bounds>
+        <color>#FFFFFFFF</color>
+        <static textres="npc_notes_Label5_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+      <stringfield name="senses">
+        <frame>
+          <name>fielddark</name>
+          <offset>5,2,5,2</offset>
+        </frame>
+        <anchored>
+          <left offset="213" />
+          <top offset="37" />
+          <size>
+            <width>224</width>
+          </size>
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+      </stringfield>
+    </sheetdata>
+  </windowclass>
+</root>

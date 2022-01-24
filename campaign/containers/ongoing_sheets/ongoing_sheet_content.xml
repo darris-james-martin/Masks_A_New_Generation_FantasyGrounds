@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="ongoing_sheet_content">
+    <placement>
+      <size height="327" width="330" />
+    </placement>
+    <script>
+function onInit()
+	update();
+end
+function update()
+	local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+	num_holds.setReadOnly(bReadOnly);
+	num_ongoing.setReadOnly(bReadOnly);
+	str_description.setReadOnly(bReadOnly);
+end
+</script>
+    <sheetdata>
+      <stringcontrol name="Label1">
+        <bounds>20,9,42,20</bounds>
+        <static textres="ongoing_sheet_content_Label1_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_holds">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>64,4,60,30</bounds>
+      </number>
+      <stringcontrol name="Label2">
+        <bounds>163,9,59,20</bounds>
+        <static textres="ongoing_sheet_content_Label2_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_ongoing">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>224,4,60,30</bounds>
+      </number>
+      <stringcontrol name="Label3">
+        <bounds>10,33,70,20</bounds>
+        <static textres="ongoing_sheet_content_Label3_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringfield name="str_description">
+        <frame>
+          <name>fielddark</name>
+          <offset>7,5,7,5</offset>
+        </frame>
+        <anchored>
+          <left offset="15" />
+          <right offset="-17" />
+          <top offset="60" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+      </stringfield>
+      <line_column name="ctrl_line1">
+        <anchored>
+          <left offset="7" />
+          <right offset="-9" />
+          <top offset="8" anchor="bottom" parent="str_description" relation="current" />
+          <size>
+            <height>2</height>
+          </size>
+        </anchored>
+      </line_column>
+    </sheetdata>
+  </windowclass>
+</root>

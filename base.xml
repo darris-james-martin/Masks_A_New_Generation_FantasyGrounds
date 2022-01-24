@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root version="3.0" release="3">
+  <announcement text="templateTemplate v1.1 \rBuilt using RulesetWizard \rCombatTracker Template used as base.\r\rMasks: A New Generation by Magpie Games\rmagpiegames.com/pages/masks\rRuleset v0.5\r\rAll Images are from the book, Magpie's website, free public domain, or self made.\rFonts from Fontspace.com free commercial-use\r-www.publicdomainpictures.net/en/view-image.php?image=137969&amp;picture=vintage-newspaper-print\r-www.fontspace.com/ignotum-font-f67055" icon="GMFrostbyteLogo" />
+  <description>
+    <text>Masks A New Generation</text>
+  </description>
+  <importruleset source="CoreRPG" />
+  <importinfo>
+    <acceptfrom ruleset="CoreRPG" />
+  </importinfo>
+  <includefile source="gameelements.xml" />
+  <includefile source="campaign/characters/charsheet/charsheet/charsheet.xml" />
+  <includefile source="campaign/characters/charsheet/charsheet_inventory/char_invitem.xml" />
+  <includefile source="campaign/characters/charsheet/charsheet_inventory/charsheet_inventory.xml" />
+  <includefile source="campaign/characters/charsheet/charsheet_inventory/template_inventory.xml" />
+  <includefile source="campaign/characters/charsheet/charsheet_main/charsheet_main.xml" />
+  <includefile source="campaign/characters/charsheet/charsheet_main/move_custom_window.xml" />
+  <includefile source="campaign/characters/charsheet/charsheet_main/move_tapb.xml" />
+  <includefile source="campaign/characters/npcsheets/npc/npc.xml" />
+  <includefile source="campaign/characters/npcsheets/npc/npc_header.xml" />
+  <includefile source="campaign/characters/npcsheets/npc_notes/npc_notes.xml" />
+  <includefile source="campaign/characters/npcsheets/npcsheets_main/move_custom_detail.xml" />
+  <includefile source="campaign/characters/npcsheets/npcsheets_main/npc_main.xml" />
+  <includefile source="campaign/containers/condition_sheets/condition_detail.xml" />
+  <includefile source="campaign/containers/condition_sheets/condition_sheet_content.xml" />
+  <includefile source="campaign/containers/condition_sheets/condtion_sheet.xml" />
+  <includefile source="campaign/containers/influence_sheets/influence_detail.xml" />
+  <includefile source="campaign/containers/influence_sheets/influence_sheet_content.xml" />
+  <includefile source="campaign/containers/influence_sheets/influence_sheet.xml" />
+  <includefile source="campaign/containers/move_sheets/move_detail.xml" />
+  <includefile source="campaign/containers/move_sheets/move_sheet_content.xml" />
+  <includefile source="campaign/containers/move_sheets/move_sheet.xml" />
+  <script name="move_roll" file="campaign/containers/move_sheets/scripts/move_roll.lua" />
+  <includefile source="campaign/containers/ongoing_sheets/ongoing_detail.xml" />
+  <includefile source="campaign/containers/ongoing_sheets/ongoing_sheet_content.xml" />
+  <includefile source="campaign/containers/ongoing_sheets/ongoing_sheet.xml" />
+  <script name="link_manager" file="campaign/scripts/link_manager.lua" />
+  <includefile source="common/template_objects.xml" />
+  <font name="dosis_small">
+    <ttf file="common/Dosis-Light.ttf" name="Dosis" size="12" />
+    <color value="#FF000000" />
+  </font>
+  <script name="button_record_locked_local" file="common/scripts/button_record_locked_local.lua" />
+  <includefile source="ct/client_ct_entry.xml" />
+  <includefile source="ct/clientct_effects.xml" />
+  <includefile source="ct/combattracker_client.xml" />
+  <includefile source="ct/combattracker_host.xml" />
+  <includefile source="ct/ct_attacks.xml" />
+  <includefile source="ct/ct_conditions.xml" />
+  <includefile source="ct/ct_defense.xml" />
+  <includefile source="ct/ct_effects.xml" />
+  <includefile source="ct/ct_entry.xml" />
+  <includefile source="ct/ct_ongoing.xml" />
+  <includefile source="ct/ct_spacing.xml" />
+  <includefile source="ct/templates/template_fc.xml" />
+  <includefile source="desktop/desktop_fixes.xml" />
+  <includefile source="desktop/panel_team/panel_team.xml" />
+  <script name="team_manager" file="desktop/panel_team/team_manager.lua" />
+  <includefile source="desktop/panel_team/panel_team_template.xml" />
+  <icon name="button_arrows_left" file="graphics/buttons/button_arrows_left.png" />
+  <icon name="button_arrows_left_down" file="graphics/buttons/button_arrows_left_down.png" />
+  <icon name="button_arrows_right" file="graphics/buttons/button_arrows_right.png" />
+  <icon name="button_arrows_right_down" file="graphics/buttons/button_arrows_right_down.png" />
+  <icon name="button_box_checkoff" file="graphics/buttons/button_box_checkoff.png" />
+  <icon name="button_box_checkon" file="graphics/buttons/button_box_checkon.png" />
+  <icon name="button_bubble_off" file="graphics/buttons/button_bubble_off.png" />
+  <icon name="button_bubble_on" file="graphics/buttons/button_bubble_on.png" />
+  <icon name="icon_label_0" file="graphics/buttons/icon_label_0.png" />
+  <icon name="icon_label_n1" file="graphics/buttons/icon_label_n1.png" />
+  <icon name="icon_label_n2" file="graphics/buttons/icon_label_n2.png" />
+  <icon name="icon_label_p1" file="graphics/buttons/icon_label_p1.png" />
+  <icon name="icon_label_p2" file="graphics/buttons/icon_label_p2.png" />
+  <icon name="icon_label_p3" file="graphics/buttons/icon_label_p3.png" />
+  <icon name="masks_decal" file="graphics/decals/masks_decal.png" />
+  <font name="masks_header">
+    <ttf file="graphics/fonts/Ignotum-mLyw2.ttf" name="Ignotum" size="20" />
+    <color value="#FF000000" />
+  </font>
+  <framedef name="charsheet">
+    <bitmap file="graphics/frames/charsheet.png" />
+    <insideoffset rect="0,0,7,7" />
+    <offset>25,40,25,25</offset>
+  </framedef>
+  <framedef name="chatbox">
+    <bitmap file="graphics/frames/chatbox.png" />
+    <top rect="18,0,487,15" />
+    <topleft rect="0,0,18,15" />
+    <topright rect="505,0,18,15" />
+    <left rect="0,15,18,476" />
+    <middle rect="18,15,487,476" />
+    <right rect="505,15,18,476" />
+    <bottomleft rect="0,491,18,12" />
+    <bottom rect="18,491,487,12" />
+    <bottomright rect="505,491,18,12" />
+  </framedef>
+  <framedef name="desktop">
+    <bitmap file="graphics/frames/desktop.png" />
+    <offset>0,0,0,0</offset>
+  </framedef>
+  <framedef name="shortcuts">
+    <bitmap file="graphics/frames/shortcuts.png" />
+    <left rect="0,0,10,1500" />
+    <middle rect="10,0,215,1500" />
+    <right rect="215,0,10,1500" />
+  </framedef>
+  <framedef name="utilitybox">
+    <bitmap file="graphics/frames/utilitybox.png" />
+    <insideoffset rect="0,0,10,10" />
+    <offset>22,22,22,22</offset>
+  </framedef>
+  <icon name="icon_label" file="graphics/frames/icon_label.png" />
+  <framedef name="button_blank">
+    <bitmap file="graphics/frames/buttons/button_blank.png" />
+    <offset>2,2,2,2</offset>
+  </framedef>
+  <framedef name="button_blank_down">
+    <bitmap file="graphics/frames/buttons/button_blank_down.png" />
+    <offset>2,2,2,2</offset>
+  </framedef>
+  <icon name="header_icon" file="graphics/icons/header_icon.png" />
+  <icon name="team_icon" file="graphics/icons/team_icon.png" />
+  <icon name="team_icon_1" file="graphics/icons/team_icon_1.png" />
+  <icon name="health_bar_0" file="graphics/icons/health_bar/health_bar_0.png" />
+  <icon name="health_bar_100" file="graphics/icons/health_bar/health_bar_100.png" />
+  <icon name="health_bar_12" file="graphics/icons/health_bar/health_bar_12.png" />
+  <icon name="health_bar_25" file="graphics/icons/health_bar/health_bar_25.png" />
+  <icon name="health_bar_38" file="graphics/icons/health_bar/health_bar_38.png" />
+  <icon name="health_bar_50" file="graphics/icons/health_bar/health_bar_50.png" />
+  <icon name="health_bar_62" file="graphics/icons/health_bar/health_bar_62.png" />
+  <icon name="health_bar_75" file="graphics/icons/health_bar/health_bar_75.png" />
+  <icon name="health_bar_83" file="graphics/icons/health_bar/health_bar_83.png" />
+  <icon name="health_bar_95" file="graphics/icons/health_bar/health_bar_95.png" />
+  <icon name="GMFrostbyteLogo" file="graphics/logo/frostbyteGMLogo.jpg" />
+  <icon name="portrait_throw_dice" file="graphics/portraits/portrait_throw_dice.png" />
+  <icon name="tab_game_setup" file="graphics/tabs/tab_game_setup.png" />
+  <includefile source="ps/ps.xml" />
+  <includefile source="ps/ps_game_setup/ps_game_setup.xml" />
+  <script name="manager_rolls" file="scripts/manager_rolls.lua" />
+  <includefile source="strings/strings_for_campaign.xml" />
+  <includefile source="strings/strings_for_containers.xml" />
+  <includefile source="strings/strings_for_ct.xml" />
+  <includefile source="strings/strings_for_ps.xml" />
+  <includefile source="strings/strings_for_scripts.xml" />
+  <includefile source="strings/strings_for_stackcontrols.xml" />
+  <includefile source="utility/templates/utility_template.xml" />
+  <includefile source="strings_Masks A New Generation.xml" />
+  <script name="RulesetWizardDiceRoller" file="rulesetwizard/RulesetWizardDiceRoller.lua" />
+  <script name="RulesetWizard" file="rulesetwizard/RulesetWizard.lua" />
+  <includefile source="rulesetwizard/rswcombobox.xml" />
+</root>

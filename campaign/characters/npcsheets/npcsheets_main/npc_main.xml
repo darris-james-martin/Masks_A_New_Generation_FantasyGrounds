@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="npc_main">
+    <placement>
+      <size height="466" width="450" />
+    </placement>
+    <script>
+function onInit()
+    update();
+end
+function update()
+    local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+    nonid_name.setReadOnly(bReadOnly);
+   
+    
+    
+end
+</script>
+    <sheetdata>
+      <stringcontrol name="Label2">
+        <bounds>7,4,87,20</bounds>
+        <color>#FFFFFFFF</color>
+        <static textres="npc_main_Label2_LabelCaption" />
+        <font>sheetlabel</font>
+        <readonly />
+      </stringcontrol>
+      <stringfield name="nonid_name">
+        <frame>
+          <name>fielddark</name>
+          <offset>5,2,5,2</offset>
+        </frame>
+        <bounds>100,3,272,22</bounds>
+      </stringfield>
+      <line_column name="divider1">
+        <bounds>5,27,440,2</bounds>
+      </line_column>
+      <stringcontrol name="Label12">
+        <bounds>9,35,100,20</bounds>
+        <color>#FFFFFFFF</color>
+        <static textres="npc_main_Label12_LabelCaption" />
+        <font>masks_header</font>
+        <readonly />
+      </stringcontrol>
+      <stringfield name="str_drive">
+        <frame>
+          <name>fielddark</name>
+          <offset>7,5,7,5</offset>
+        </frame>
+        <anchored>
+          <left offset="17" />
+          <right offset="-17" />
+          <top offset="61" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+      </stringfield>
+      <stringcontrol name="Label13">
+        <anchored>
+          <left offset="19" />
+          <top offset="10" anchor="bottom" parent="str_drive" relation="current" />
+          <size>
+            <width>100</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <color>#FFFFFFFF</color>
+        <static textres="npc_main_Label13_LabelCaption" />
+        <font>masks_header</font>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="Label14">
+        <anchored>
+          <right offset="-111" />
+          <top offset="10" anchor="bottom" parent="str_drive" relation="current" />
+          <size>
+            <width>100</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <color>#FFFFFFFF</color>
+        <static textres="npc_main_Label14_LabelCaption" />
+        <font>masks_header</font>
+        <readonly />
+      </stringcontrol>
+      <genericcontrol name="IconControl2">
+        <frame>
+          <name>groupbox</name>
+        </frame>
+        <anchored>
+          <left offset="4" />
+          <top offset="33" anchor="bottom" parent="str_drive" relation="current" />
+          <size>
+            <width>215</width>
+            <height>254</height>
+          </size>
+        </anchored>
+      </genericcontrol>
+      <windowlist name="wl_npc_moves">
+        <anchored>
+          <left offset="11" />
+          <top offset="40" anchor="bottom" parent="str_drive" relation="current" />
+          <size>
+            <width>201</width>
+            <height>239</height>
+          </size>
+        </anchored>
+        <class>move_custom_detail</class>
+        <datasource>.wl_npc_moves</datasource>
+        <allowcreate />
+        <allowdelete />
+        <acceptdrop>
+          <class>move_sheet</class>
+          <field>*</field>
+        </acceptdrop>
+      </windowlist>
+      <genericcontrol name="IconControl1">
+        <frame>
+          <name>groupbox</name>
+        </frame>
+        <anchored>
+          <right offset="-8" />
+          <top offset="33" anchor="bottom" parent="str_drive" relation="current" />
+          <size>
+            <width>215</width>
+            <height>254</height>
+          </size>
+        </anchored>
+      </genericcontrol>
+      <windowlist name="wl_npc_condtions">
+        <anchored>
+          <right offset="-15" />
+          <top offset="39" anchor="bottom" parent="str_drive" relation="current" />
+          <size>
+            <width>201</width>
+            <height>239</height>
+          </size>
+        </anchored>
+        <class>condition_detail</class>
+        <datasource>.wl_npc_condtions</datasource>
+        <allowcreate />
+        <allowdelete />
+        <acceptdrop>
+          <class>condition_sheet</class>
+          <field>*</field>
+        </acceptdrop>
+      </windowlist>
+      <stringcontrol name="Label6">
+        <anchored>
+          <left offset="14" />
+          <top offset="5" anchor="bottom" parent="wl_npc_moves" relation="current" />
+          <size>
+            <width>100</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <color>#FFFFFFFF</color>
+        <static textres="npc_main_Label6_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringfield name="str_power">
+        <frame>
+          <name>fielddark</name>
+          <offset>7,5,7,5</offset>
+        </frame>
+        <anchored>
+          <left offset="17" />
+          <right offset="-17" />
+          <top offset="32" anchor="bottom" parent="wl_npc_moves" relation="current" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+      </stringfield>
+      <stringcontrol name="Label7">
+        <anchored>
+          <left offset="14" />
+          <top offset="8" anchor="bottom" parent="str_power" relation="current" />
+          <size>
+            <width>100</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <color>#FFFFFFFF</color>
+        <static textres="npc_main_Label7_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringfield name="str_weak">
+        <frame>
+          <name>fielddark</name>
+          <offset>7,5,7,5</offset>
+        </frame>
+        <anchored>
+          <left offset="17" />
+          <right offset="-17" />
+          <top offset="35" anchor="bottom" parent="str_power" relation="current" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+      </stringfield>
+      <number name="condition_current">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>486,225,60,30</bounds>
+        <invisible />
+        <script>
+
+function updateConditions()
+	local nAfraid = window.box_afraid.getValue();
+	local nAngry = window.box_angry.getValue();
+	local nGuilty = window.box_guilty.getValue();
+	local nHopeless = window.box_hopeless.getValue();
+	local nInsecure = window.box_insecure.getValue();
+	local nTotal = nAfraid + nAngry + nGuilty + nHopeless + nInsecure;
+	setValue(nTotal);
+end
+</script>
+      </number>
+      <stringcontrol name="Label1">
+        <bounds>470,206,100,20</bounds>
+        <invisible />
+        <static textres="npc_main_Label1_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="condition_total">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>493,275,60,30</bounds>
+        <invisible />
+        <default>5</default>
+      </number>
+      <stringcontrol name="Label4">
+        <bounds>478,257,100,20</bounds>
+        <invisible />
+        <static textres="npc_main_Label4_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringfield name="condition_summary">
+        <bounds>494,330,57,20</bounds>
+        <invisible />
+        <lineoffset default="on">2</lineoffset>
+        <script>
+function onInit()
+	local pathConditions = window.wl_npc_condtions.getDatabaseNode().getPath();
+	DB.addHandler(pathConditions, "onChildUpdate", updateConditions);
+	updateConditions();
+end
+
+function onClose()
+	local pathConditions = window.wl_npc_condtions.getDatabaseNode().getPath();
+	DB.removeHandler(pathConditions, "onChildUpdate", updateConditions);
+end
+
+function updateConditions()
+	--declarations
+	local sConditions = "";
+	local nConditionsTotal = 0;
+	local nConditionsCurrent = 0;
+	
+	-- npc Condtions
+	local nodeConditions = window.wl_npc_condtions.getDatabaseNode();
+    for sClass,rRecord in pairs(nodeConditions.getChildren()) do
+        --Debug.chat("sClass: ",sClass," rRecord: ",rRecord);
+        local nName = DB.getValue(rRecord, "name", "");
+        
+        -- check for name
+        if string.len(nName) &gt; 0 then
+			nConditionsTotal = nConditionsTotal + 1;
+			
+			
+			-- check for taken
+			local bTaken = DB.getValue(rRecord, "box_taken", 0) == 1;
+			if bTaken then
+				nConditionsCurrent = nConditionsCurrent + 1;
+				sConditions = sConditions.."|"..nName;
+			end
+        end
+    end
+	
+	--set String
+	if string.len(sConditions) &gt; 0 then
+		sConditions = sConditions.."|"
+	end
+	
+	setValue(sConditions);
+	
+	--set Total and current
+	window.condition_current.setValue(nConditionsCurrent);
+	window.condition_total.setValue(nConditionsTotal);
+	
+	
+end
+
+
+
+
+</script>
+      </stringfield>
+      <stringcontrol name="Label3">
+        <bounds>474,308,115,20</bounds>
+        <invisible />
+        <static textres="npc_main_Label3_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+    </sheetdata>
+  </windowclass>
+</root>

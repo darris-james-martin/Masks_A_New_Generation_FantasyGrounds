@@ -1,0 +1,868 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="move_sheet_content">
+    <placement>
+      <size height="327" width="330" />
+    </placement>
+    <script>
+function onInit()
+	update();
+end
+function update()
+	local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+	cbox_stats.setReadOnly(bReadOnly);
+	num_bonus.setReadOnly(bReadOnly);
+	str_description.setReadOnly(bReadOnly)
+	str_success.setReadOnly(bReadOnly);
+	str_success_cost.setReadOnly(bReadOnly);	
+	str_miss.setReadOnly(bReadOnly);
+	
+	--hide Fields
+	box_custom.setVisible(not(bReadOnly));
+	lbl_custom.setVisible(not(bReadOnly));
+	box_ongoing.setVisible(not(bReadOnly));
+	lbl_ongoing.setVisible(not(bReadOnly));
+	box_show.setVisible(not(bReadOnly));
+	lbl_show.setVisible(not(bReadOnly));
+	box_hold.setVisible(not(bReadOnly));
+	lbl_hold.setVisible(not(bReadOnly));
+end
+</script>
+    <sheetdata>
+      <buttonfield name="box_custom">
+        <bounds>4,3,20,20</bounds>
+        <gmvisibleonly />
+        <state icon="button_checkoff" />
+        <state icon="button_checkon" />
+        <script>
+function onInit()
+	onValueChanged();
+end
+
+function onValueChanged()
+	--declarations	
+	
+	
+	
+end
+
+</script>
+      </buttonfield>
+      <stringcontrol name="lbl_custom">
+        <bounds>29,3,107,20</bounds>
+        <gmvisibleonly />
+        <static textres="move_sheet_content_lbl_custom_LabelCaption" />
+        <script>
+
+function onDoubleClick(x, y)
+	local nValue = window.box_custom.getValue();
+	if nValue == 1 then nValue = 0; else nValue = 1; end
+	window.box_custom.setValue(nValue);
+end
+</script>
+        <readonly />
+      </stringcontrol>
+      <buttonfield name="box_ongoing">
+        <bounds>-147,3,20,20</bounds>
+        <state icon="button_checkoff" />
+        <state icon="button_checkon" />
+        <script>
+function onInit()
+	local doOngoing = window.box_ongoing.getValue() == 1;
+	local doRoll = window.box_show.getValue() == 0;
+	--Debug.chat("hold onInit() doHold",doHold,"doRoll",doRoll);
+	showOngoings(doRoll, doOngoing);
+end
+
+function onValueChanged()
+	local doOngoing = window.box_ongoing.getValue() == 1;
+	local doRoll = window.box_show.getValue() == 0;
+	--Debug.chat("hold onValueChanged() doHold",doHold,"doRoll",doRoll);
+	showOngoings(doRoll, doOngoing);
+end
+
+function showOngoings(doRolled, doOngoing)
+	--Debug.chat("doRolled",doRolled,"doOngoing",doOngoing);
+	if doOngoing then
+		if doRolled then			
+			window.lbl_ongoing_noroll.setVisible(false);
+			window.num_ongoing_noroll.setVisible(false);
+			window.num_ongoing_noroll.setValue(0);
+			window.lbl_ongoing_success.setVisible(true);
+			window.num_ongoing_success.setVisible(true);
+			window.lbl_ongoing_successcost.setVisible(true);
+			window.num_ongoing_successcost.setVisible(true);			
+			window.lbl_ongoing_miss.setVisible(true);
+			window.num_ongoing_miss.setVisible(true);
+		else
+			window.lbl_ongoing_noroll.setVisible(true);
+			window.num_ongoing_noroll.setVisible(true);
+			window.lbl_ongoing_success.setVisible(false);
+			window.num_ongoing_success.setVisible(false);
+			window.num_ongoing_success.setValue(0);
+			window.lbl_ongoing_successcost.setVisible(false);
+			window.num_ongoing_successcost.setVisible(false);
+			window.num_ongoing_successcost.setValue(0);
+			window.lbl_ongoing_miss.setVisible(false);
+			window.num_ongoing_miss.setVisible(false);
+			window.num_ongoing_miss.setValue(0);
+		end
+	else
+		window.lbl_ongoing_noroll.setVisible(false);
+		window.num_ongoing_noroll.setVisible(false);
+		window.num_ongoing_noroll.setValue(0);
+		window.lbl_ongoing_success.setVisible(false);
+		window.num_ongoing_success.setVisible(false);
+		window.num_ongoing_success.setValue(0);
+		window.lbl_ongoing_successcost.setVisible(false);
+		window.num_ongoing_successcost.setVisible(false);
+		window.num_ongoing_successcost.setValue(0);
+		window.lbl_ongoing_miss.setVisible(false);
+		window.num_ongoing_miss.setVisible(false);
+		window.num_ongoing_miss.setValue(0);
+	end
+	
+end
+
+
+
+</script>
+      </buttonfield>
+      <stringcontrol name="lbl_ongoing">
+        <bounds>-122,3,117,20</bounds>
+        <static textres="move_sheet_content_lbl_ongoing_LabelCaption" />
+        <script>
+
+function onDoubleClick(x, y)
+	local nValue = window.box_ongoing.getValue();
+	if nValue == 1 then nValue = 0; else nValue = 1; end
+	window.box_ongoing.setValue(nValue);
+end
+
+</script>
+        <readonly />
+      </stringcontrol>
+      <buttonfield name="box_show">
+        <anchored>
+          <left offset="4" />
+          <top offset="1" anchor="bottom" parent="box_custom" relation="current" />
+          <size>
+            <width>20</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <state icon="button_checkoff" />
+        <state icon="button_checkon" />
+        <script>
+function onInit()
+	onValueChanged();
+end
+
+function onValueChanged()
+	--declarations	
+	local value = getValue();
+	local bRolled = value == 0;
+	local doHold = window.box_hold.getValue() == 1;
+	local doOngoing = window.box_ongoing.getValue() == 1;
+	
+	-- hide all other fields
+	window.lbl_success.setVisible(bRolled);	
+	window.str_success.setVisible(bRolled);
+	window.lbl_roll.setVisible(bRolled);
+	window.num_bonus.setVisible(bRolled);
+	window.lbl_bonus.setVisible(bRolled);
+	window.lbl_success_cost.setVisible(bRolled);
+	window.str_success_cost.setVisible(bRolled);	
+	window.lbl_miss.setVisible(bRolled);
+	window.str_miss.setVisible(bRolled);
+	
+	-- manage holds and ongoings
+	--Debug.chat("roll onValueChanged() doHold",doHold,"bRolled",bRolled);
+	window.box_hold.showHolds(bRolled, doHold);
+	window.box_ongoing.showOngoings(bRolled, doOngoing);
+	
+	--Set Dropdown to read only.
+	if  not bRolled then
+		window.cbox_stats.setValue("None");
+		window.cbox_condition.setValue("None");
+		window.num_bonus.setValue(0);
+	end	
+end
+
+</script>
+      </buttonfield>
+      <stringcontrol name="lbl_show">
+        <anchored>
+          <left offset="29" />
+          <top offset="1" anchor="bottom" parent="box_custom" relation="current" />
+          <size>
+            <width>107</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <static textres="move_sheet_content_lbl_show_LabelCaption" />
+        <script>
+
+function onDoubleClick(x, y)
+	local nValue = window.box_show.getValue();
+	if nValue == 1 then nValue = 0; else nValue = 1; end
+	window.box_show.setValue(nValue);
+end
+</script>
+        <readonly />
+      </stringcontrol>
+      <buttonfield name="box_hold">
+        <anchored>
+          <right offset="-127" />
+          <top offset="1" anchor="bottom" parent="box_ongoing" relation="current" />
+          <size>
+            <width>20</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <state icon="button_checkoff" />
+        <state icon="button_checkon" />
+        <script>
+function onInit()
+	local doHold = window.box_hold.getValue() == 1;
+	local doRoll = window.box_show.getValue() == 0;
+	--Debug.chat("hold onInit() doHold",doHold,"doRoll",doRoll);
+	showHolds(doRoll, doHold);
+end
+
+function onValueChanged()
+	local doHold = window.box_hold.getValue() == 1;
+	local doRoll = window.box_show.getValue() == 0;
+	--Debug.chat("hold onValueChanged() doHold",doHold,"doRoll",doRoll);
+	showHolds(doRoll, doHold);
+end
+
+function showHolds(doRolled, doHold)
+	--Debug.chat("doRolled",doRolled,"doHold",doHold);
+	if doHold then
+		if doRolled then			
+			window.lbl_notrolled_hold.setVisible(false);
+			window.num_notrolled_hold.setVisible(false);
+			window.num_notrolled_hold.setValue(0);
+			window.lbl_success_hold.setVisible(true);
+			window.num_strong_hold.setVisible(true);
+			window.lbl_success_cost_hold.setVisible(true);
+			window.num_weak_hold.setVisible(true);	
+			window.lbl_miss_hold.setVisible(true);
+			window.num_miss_hold.setVisible(true);			
+		else
+			window.lbl_notrolled_hold.setVisible(true);
+			window.num_notrolled_hold.setVisible(true);
+			window.lbl_success_hold.setVisible(false);
+			window.num_strong_hold.setVisible(false);
+			window.num_strong_hold.setValue(0);
+			window.lbl_success_cost_hold.setVisible(false);
+			window.num_weak_hold.setVisible(false);
+			window.num_weak_hold.setValue(0);
+			window.lbl_miss_hold.setVisible(false);
+			window.num_miss_hold.setVisible(false);
+			window.num_miss_hold.setValue(0);
+		end
+	else
+		window.lbl_notrolled_hold.setVisible(false);
+		window.num_notrolled_hold.setVisible(false);
+		window.num_notrolled_hold.setValue(0);
+		window.lbl_success_hold.setVisible(false);
+		window.num_strong_hold.setVisible(false);
+		window.num_strong_hold.setValue(0);
+		window.lbl_success_cost_hold.setVisible(false);
+		window.num_weak_hold.setVisible(false);	
+		window.num_weak_hold.setValue(0);
+		window.lbl_miss_hold.setVisible(false);
+		window.num_miss_hold.setVisible(false);		
+		window.num_miss_hold.setValue(0);
+	end
+	
+end
+
+
+
+</script>
+      </buttonfield>
+      <stringcontrol name="lbl_hold">
+        <anchored>
+          <right offset="-27" />
+          <top offset="2" anchor="bottom" parent="box_ongoing" relation="current" />
+          <size>
+            <width>95</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <static textres="move_sheet_content_lbl_hold_LabelCaption" />
+        <script>
+
+function onDoubleClick(x, y)
+	local nValue = window.box_hold.getValue();
+	if nValue == 1 then nValue = 0; else nValue = 1; end
+	window.box_hold.setValue(nValue);
+end
+
+</script>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="lbl_roll">
+        <anchored>
+          <left offset="21" />
+          <top offset="3" anchor="bottom" parent="box_hold" relation="current" />
+          <size>
+            <width>69</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <center />
+        <static textres="move_sheet_content_lbl_roll_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="lbl_bonus">
+        <anchored>
+          <left offset="111" />
+          <right offset="-166" />
+          <top offset="3" anchor="bottom" parent="box_hold" relation="current" />
+          <size>
+            <height>20</height>
+          </size>
+        </anchored>
+        <center />
+        <static textres="move_sheet_content_lbl_bonus_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="Label3">
+        <anchored>
+          <right offset="-69" />
+          <top offset="3" anchor="bottom" parent="box_hold" relation="current" />
+          <size>
+            <width>69</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <center />
+        <static textres="move_sheet_content_Label3_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <rsw_combobox name="cbox_stats">
+        <frame>
+          <name>fielddark</name>
+          <offset>8,0,8,0</offset>
+        </frame>
+        <anchored>
+          <left offset="20" />
+          <top offset="23" anchor="bottom" parent="box_hold" relation="current" />
+          <size>
+            <width>72</width>
+            <height>30</height>
+          </size>
+        </anchored>
+        <empty textres="move_sheet_content_cbox_stats_EmptyText" />
+        <listdirection>down</listdirection>
+        <unsorted />
+        <script>
+
+function onInit()
+	setStat();
+
+super.onInit();
+add("None","None");
+add("Danger","Danger");
+add("Freak","Freak");
+add("Savior","Savior");
+add("Superior","Superior");
+add("Mundane","Mundane");
+add("Conditions","Conditions");
+
+end
+
+function onValueChanged()
+	setStat();
+end
+
+function setStat()
+	--declaration
+	local value = getValue();
+	--Debug.chat("setStat().value",value);
+	
+	--default Value
+	if value == '' then
+		setValue("None");
+		window.str_stats.setValue("None");
+	else
+		window.str_stats.setValue(value);
+	end	
+end
+</script>
+      </rsw_combobox>
+      <number name="num_bonus">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <anchored>
+          <left offset="108" />
+          <right offset="-162" />
+          <top offset="23" anchor="bottom" parent="box_hold" relation="current" />
+          <size>
+            <height>30</height>
+          </size>
+        </anchored>
+        <default>0</default>
+      </number>
+      <rsw_combobox name="cbox_condition">
+        <frame>
+          <name>fielddark</name>
+          <offset>8,0,8,0</offset>
+        </frame>
+        <anchored>
+          <right offset="-68" />
+          <top offset="23" anchor="bottom" parent="box_hold" relation="current" />
+          <size>
+            <width>72</width>
+            <height>30</height>
+          </size>
+        </anchored>
+        <empty textres="move_sheet_content_cbox_condition_EmptyText" />
+        <listdirection>down</listdirection>
+        <unsorted />
+        <script>
+
+function onInit()
+	setStat();
+
+super.onInit();
+add("None","None");
+add("Afraid","Afraid");
+add("Angry","Angry");
+add("Guilty","Guilty");
+add("Hopeless","Hopeless");
+add("Insecure","Insecure");
+
+end
+
+function onValueChanged()
+	setStat();
+end
+
+function setStat()
+	--declaration
+	local value = getValue();
+	--Debug.chat("setStat().value",value);
+	
+	--default Value
+	if value == '' then
+		setValue("None");
+		window.str_condition.setValue("None");
+	else
+		window.str_condition.setValue(value);
+	end	
+end
+</script>
+      </rsw_combobox>
+      <stringcontrol name="lbl_description">
+        <anchored>
+          <left offset="11" />
+          <top offset="3" anchor="bottom" parent="cbox_stats" relation="current" />
+          <size>
+            <width>75</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <static textres="move_sheet_content_lbl_description_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="lbl_ongoing_noroll">
+        <anchored>
+          <right offset="-140" />
+          <top offset="3" anchor="bottom" parent="cbox_stats" relation="current" />
+          <size>
+            <width>52</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <static textres="move_sheet_content_lbl_ongoing_noroll_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_ongoing_noroll">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <anchored>
+          <right offset="-97" />
+          <top offset="3" anchor="bottom" parent="cbox_stats" relation="current" />
+          <size>
+            <width>40</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <default>0</default>
+      </number>
+      <stringcontrol name="lbl_notrolled_hold">
+        <anchored>
+          <right offset="-58" />
+          <top offset="3" anchor="bottom" parent="cbox_stats" relation="current" />
+          <size>
+            <width>36</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <static textres="move_sheet_content_lbl_notrolled_hold_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_notrolled_hold">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <anchored>
+          <right offset="-15" />
+          <top offset="3" anchor="bottom" parent="cbox_stats" relation="current" />
+          <size>
+            <width>40</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <default>0</default>
+      </number>
+      <stringfield name="str_description">
+        <frame>
+          <name>fielddark</name>
+          <offset>7,5,7,5</offset>
+        </frame>
+        <anchored>
+          <left offset="14" />
+          <right offset="-15" />
+          <top offset="29" anchor="bottom" parent="cbox_stats" relation="current" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+      </stringfield>
+      <stringcontrol name="lbl_success">
+        <anchored>
+          <left offset="11" />
+          <top offset="6" anchor="bottom" parent="str_description" relation="current" />
+          <size>
+            <width>93</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <static textres="move_sheet_content_lbl_success_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="lbl_ongoing_success">
+        <anchored>
+          <right offset="-140" />
+          <top offset="6" anchor="bottom" parent="str_description" relation="current" />
+          <size>
+            <width>52</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <static textres="move_sheet_content_lbl_ongoing_success_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_ongoing_success">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <anchored>
+          <right offset="-97" />
+          <top offset="6" anchor="bottom" parent="str_description" relation="current" />
+          <size>
+            <width>40</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <default>0</default>
+      </number>
+      <stringcontrol name="lbl_success_hold">
+        <anchored>
+          <right offset="-58" />
+          <top offset="6" anchor="bottom" parent="str_description" relation="current" />
+          <size>
+            <width>36</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <static textres="move_sheet_content_lbl_success_hold_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_strong_hold">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <anchored>
+          <right offset="-15" />
+          <top offset="6" anchor="bottom" parent="str_description" relation="current" />
+          <size>
+            <width>40</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <default>0</default>
+      </number>
+      <stringfield name="str_success">
+        <frame>
+          <name>fielddark</name>
+          <offset>7,5,7,5</offset>
+        </frame>
+        <anchored>
+          <left offset="13" />
+          <right offset="-16" />
+          <top offset="31" anchor="bottom" parent="str_description" relation="current" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+      </stringfield>
+      <stringcontrol name="lbl_success_cost">
+        <anchored>
+          <left offset="11" />
+          <top offset="6" anchor="bottom" parent="str_success" relation="current" />
+          <size>
+            <width>88</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <static textres="move_sheet_content_lbl_success_cost_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="lbl_ongoing_successcost">
+        <anchored>
+          <right offset="-142" />
+          <top offset="7" anchor="bottom" parent="str_success" relation="current" />
+          <size>
+            <width>50</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <static textres="move_sheet_content_lbl_ongoing_successcost_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_ongoing_successcost">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <anchored>
+          <right offset="-97" />
+          <top offset="7" anchor="bottom" parent="str_success" relation="current" />
+          <size>
+            <width>40</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <default>0</default>
+      </number>
+      <stringcontrol name="lbl_success_cost_hold">
+        <anchored>
+          <right offset="-58" />
+          <top offset="7" anchor="bottom" parent="str_success" relation="current" />
+          <size>
+            <width>36</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <static textres="move_sheet_content_lbl_success_cost_hold_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_weak_hold">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <anchored>
+          <right offset="-15" />
+          <top offset="7" anchor="bottom" parent="str_success" relation="current" />
+          <size>
+            <width>40</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <default>0</default>
+      </number>
+      <stringfield name="str_success_cost">
+        <frame>
+          <name>fielddark</name>
+          <offset>7,5,7,5</offset>
+        </frame>
+        <anchored>
+          <left offset="13" />
+          <right offset="-16" />
+          <top offset="32" anchor="bottom" parent="str_success" relation="current" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+      </stringfield>
+      <stringcontrol name="lbl_miss">
+        <anchored>
+          <left offset="11" />
+          <top offset="6" anchor="bottom" parent="str_success_cost" relation="current" />
+          <size>
+            <width>49</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <static textres="move_sheet_content_lbl_miss_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="lbl_ongoing_miss">
+        <anchored>
+          <right offset="-142" />
+          <top offset="7" anchor="bottom" parent="str_success_cost" relation="current" />
+          <size>
+            <width>50</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <static textres="move_sheet_content_lbl_ongoing_miss_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_ongoing_miss">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <anchored>
+          <right offset="-97" />
+          <top offset="7" anchor="bottom" parent="str_success_cost" relation="current" />
+          <size>
+            <width>40</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <default>0</default>
+      </number>
+      <stringcontrol name="lbl_miss_hold">
+        <anchored>
+          <right offset="-58" />
+          <top offset="7" anchor="bottom" parent="str_success_cost" relation="current" />
+          <size>
+            <width>36</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <static textres="move_sheet_content_lbl_miss_hold_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_miss_hold">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <anchored>
+          <right offset="-15" />
+          <top offset="7" anchor="bottom" parent="str_success_cost" relation="current" />
+          <size>
+            <width>40</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <default>0</default>
+      </number>
+      <stringfield name="str_miss">
+        <frame>
+          <name>fielddark</name>
+          <offset>7,5,7,5</offset>
+        </frame>
+        <anchored>
+          <left offset="13" />
+          <right offset="-16" />
+          <top offset="31" anchor="bottom" parent="str_success_cost" relation="current" />
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+      </stringfield>
+      <line_column name="ctrl_line1">
+        <anchored>
+          <left offset="7" />
+          <right offset="-9" />
+          <top offset="8" anchor="bottom" parent="str_miss" relation="current" />
+          <size>
+            <height>2</height>
+          </size>
+        </anchored>
+      </line_column>
+      <stringfield name="str_stats">
+        <bounds>363,17,104,20</bounds>
+        <invisible />
+        <lineoffset default="on">2</lineoffset>
+      </stringfield>
+      <stringcontrol name="Label1">
+        <bounds>471,17,77,20</bounds>
+        <invisible />
+        <static textres="move_sheet_content_Label1_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringfield name="str_condition">
+        <bounds>363,37,104,20</bounds>
+        <invisible />
+        <lineoffset default="on">2</lineoffset>
+      </stringfield>
+      <stringcontrol name="Label4">
+        <bounds>471,38,76,20</bounds>
+        <invisible />
+        <static textres="move_sheet_content_Label4_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <buttoncontrol name="btn_roll">
+        <frame>
+          <name>buttonup</name>
+        </frame>
+        <anchored>
+          <right offset="-10" />
+          <top offset="26" anchor="bottom" parent="box_hold" relation="current" />
+          <size>
+            <width>40</width>
+            <height>25</height>
+          </size>
+        </anchored>
+        <invisible />
+        <state textres="move_sheet_content_btn_roll_ButtonCaption" />
+        <stateframe>
+          <pressed name="buttonup" offset="-1,-1,-1,-1" nobaseframe="true" />
+        </stateframe>
+        <font>button-white</font>
+        <script>
+
+function onClickRelease(button, x, y)
+	local nodeChar = DB.findNode(window.str_node_char.getValue());
+	
+	local nodeLink = window.getDatabaseNode();
+	--Debug.chat("nodeChar",nodeChar,"nodeLink",nodeLink);
+	
+	move_roll.prepRoll(nodeChar, nodeLink);
+	
+	nodeChar.getChild("link_custom_move").setValue("");
+	window.str_node_char.setValue("");
+end
+
+
+</script>
+      </buttoncontrol>
+      <stringfield name="str_node_char">
+        <bounds>363,57,104,20</bounds>
+        <invisible />
+        <lineoffset default="on">2</lineoffset>
+        <script>
+function onInit()
+	onValueChanged();
+end
+
+
+function onValueChanged()
+	local sNodeChar = getValue();
+	local bShowRoll = string.len(sNodeChar) &gt; 0
+	local nBoxCustom = window.box_custom.getValue();
+	local bCustom = nBoxCustom == 1;
+	--Debug.chat("bShowRoll",bShowRoll,"bCustom",bCustom);
+	-- set Roll to Visible
+	if bCustom and bShowRoll then
+		window.btn_roll.setVisible(true);
+	else
+		window.btn_roll.setVisible(false);
+	end
+end
+
+
+</script>
+      </stringfield>
+      <stringcontrol name="Label2">
+        <bounds>471,58,76,20</bounds>
+        <invisible />
+        <static textres="move_sheet_content_Label2_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+    </sheetdata>
+  </windowclass>
+</root>

@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="charsheet">
+    <frame>charsheet</frame>
+    <script file="campaign/scripts/char.lua" />
+    <placement>
+      <size height="750" width="622" />
+    </placement>
+    <nodelete />
+    <softclose />
+    <sizelimits resize="both">
+      <minimum width="622" height="750" />
+      <dynamic />
+    </sizelimits>
+    <sheetdata>
+      <genericcontrol name="ic_ongoing_effects">
+        <frame>
+          <name>groupbox</name>
+        </frame>
+        <bounds>11,-131,271,76</bounds>
+      </genericcontrol>
+      <genericcontrol name="IconControl1">
+        <frame>
+          <name>groupbox</name>
+        </frame>
+        <bounds>23,20,-139,45</bounds>
+      </genericcontrol>
+      <buttongroup_tabs name="VerticalTab1">
+        <frame>
+          <name>tabs</name>
+        </frame>
+        <anchored>
+          <right offset="5" />
+          <top offset="71" />
+          <size>
+            <width>18</width>
+            <height>223</height>
+          </size>
+        </anchored>
+        <tab>
+          <icon>tab_main</icon>
+          <subwindow>sw_charsheet_main</subwindow>
+        </tab>
+        <tab>
+          <icon>tab_inventory</icon>
+          <subwindow>sw_inventory</subwindow>
+        </tab>
+        <tab>
+          <icon>tab_notes</icon>
+          <subwindow>sw_notes</subwindow>
+        </tab>
+      </buttongroup_tabs>
+      <genericcontrol name="portrait_base">
+        <bounds>-129,20,47,47</bounds>
+        <icon>charlist_base</icon>
+      </genericcontrol>
+      <portrait_char name="portrait" merge="join">
+        <bounds>-128,21,45,45</bounds>
+      </portrait_char>
+      <token_char name="token">
+        <bounds>-80,23,40,40</bounds>
+      </token_char>
+      <string_labeled name="name">
+        <bounds>35,29,-159,21</bounds>
+        <lineoffset default="on">2</lineoffset>
+        <label>NAME</label>
+      </string_labeled>
+      <subwindow name="sw_charsheet_main">
+        <bounds>23,69,-27,-156</bounds>
+        <class>charsheet_main</class>
+        <activate />
+        <fastinit />
+      </subwindow>
+      <subwindow name="sw_inventory">
+        <bounds>23,69,-27,-156</bounds>
+        <class>charsheet_inventory</class>
+        <activate />
+      </subwindow>
+      <subwindow name="sw_notes">
+        <bounds>23,69,-27,-156</bounds>
+        <class>charsheet_notes</class>
+        <activate />
+      </subwindow>
+      <button_charactivate name="speak">
+        <bounds>-36,28,23,22</bounds>
+      </button_charactivate>
+      <close_base name="button_close">
+        <frame>
+          <name>buttonup</name>
+        </frame>
+        <bounds>-24,0,24,24</bounds>
+        <icon normal="button_close" pressed="button_close_down" hover="button_close_hover" />
+        <font>button-white</font>
+      </close_base>
+      <line_column name="CustomControl1">
+        <bounds>17,-152,-21,2</bounds>
+      </line_column>
+      <stringcontrol name="lbl_potential">
+        <bounds>21,-59,100,20</bounds>
+        <static textres="charsheet_lbl_potential_LabelCaption" />
+        <font>masks_header</font>
+        <readonly />
+      </stringcontrol>
+      <buttongroup_counter name="cl_potential">
+        <anchored>
+          <left offset="21" />
+          <bottom offset="-2" />
+          <size>
+            <width>100</width>
+            <height>22</height>
+          </size>
+        </anchored>
+        <sourcefields>
+          <maximum>potential_max</maximum>
+          <current>potential_current</current>
+        </sourcefields>
+        <maxslotperrow>5</maxslotperrow>
+        <spacing>22</spacing>
+        <stateicons>
+          <on>button_box_checkon</on>
+          <off>button_box_checkoff</off>
+        </stateicons>
+        <stateicons>
+          <on>button_box_checkon</on>
+          <off>button_box_checkoff</off>
+        </stateicons>
+      </buttongroup_counter>
+      <number name="potential_current">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>679,581,60,30</bounds>
+        <invisible />
+      </number>
+      <stringcontrol name="Label2">
+        <bounds>742,588,100,20</bounds>
+        <invisible />
+        <static textres="charsheet_Label2_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="potential_max">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>679,607,60,30</bounds>
+        <invisible />
+        <default>5</default>
+      </number>
+      <stringcontrol name="Label3">
+        <bounds>742,615,100,20</bounds>
+        <invisible />
+        <static textres="charsheet_Label3_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="lbl_condtions">
+        <bounds>-323,-147,100,20</bounds>
+        <static textres="charsheet_lbl_condtions_LabelCaption" />
+        <font>masks_header</font>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="lbl_afraid">
+        <bounds>-307,-124,57,20</bounds>
+        <static textres="charsheet_lbl_afraid_LabelCaption" />
+        <font>narratorfont</font>
+        <script>
+
+function onDoubleClick(x, y)
+	local bConValue = window.box_afraid.getValue() == 1;
+	--Debug.chat("bConValue",bConValue);
+	
+	if bConValue then
+		ModifierStack.addSlot(getValue(), -2);
+	end
+end
+
+</script>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="lbl_angry">
+        <bounds>-307,-104,57,20</bounds>
+        <static textres="charsheet_lbl_angry_LabelCaption" />
+        <font>narratorfont</font>
+        <script>
+
+function onDoubleClick(x, y)
+	local bConValue = window.box_angry.getValue() == 1;
+	--Debug.chat("bConValue",bConValue);
+	
+	if bConValue then
+		ModifierStack.addSlot(getValue(), -2);
+	end
+end
+
+</script>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="lbl_guilty">
+        <bounds>-307,-84,57,20</bounds>
+        <static textres="charsheet_lbl_guilty_LabelCaption" />
+        <font>narratorfont</font>
+        <script>
+
+function onDoubleClick(x, y)
+	local bConValue = window.box_guilty.getValue() == 1;
+	--Debug.chat("bConValue",bConValue);
+	
+	if bConValue then
+		ModifierStack.addSlot(getValue(), -2);
+	end
+end
+
+</script>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="lbl_hopeless">
+        <bounds>-307,-64,57,20</bounds>
+        <static textres="charsheet_lbl_hopeless_LabelCaption" />
+        <font>narratorfont</font>
+        <script>
+
+function onDoubleClick(x, y)
+	local bConValue = window.box_hopeless.getValue() == 1;
+	--Debug.chat("bConValue",bConValue);
+	
+	if bConValue then
+		ModifierStack.addSlot(getValue(), -2);
+	end
+end
+
+</script>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="lbl_insecure">
+        <bounds>-307,-44,57,20</bounds>
+        <static textres="charsheet_lbl_insecure_LabelCaption" />
+        <font>narratorfont</font>
+        <script>
+
+function onDoubleClick(x, y)
+	local bConValue = window.box_insecure.getValue() == 1;
+	--Debug.chat("bConValue",bConValue);
+	
+	if bConValue then
+		ModifierStack.addSlot(getValue(), -2);
+	end
+end
+
+</script>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="Label9">
+        <bounds>-251,-124,248,20</bounds>
+        <static textres="charsheet_Label9_LabelCaption" />
+        <font>sheetlabelmini</font>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="Label10">
+        <bounds>-251,-104,248,20</bounds>
+        <static textres="charsheet_Label10_LabelCaption" />
+        <font>sheetlabelmini</font>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="Label11">
+        <bounds>-251,-84,248,20</bounds>
+        <static textres="charsheet_Label11_LabelCaption" />
+        <font>sheetlabelmini</font>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="Label12">
+        <bounds>-251,-64,248,20</bounds>
+        <static textres="charsheet_Label12_LabelCaption" />
+        <font>sheetlabelmini</font>
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="Label13">
+        <bounds>-251,-44,248,20</bounds>
+        <static textres="charsheet_Label13_LabelCaption" />
+        <font>sheetlabelmini</font>
+        <readonly />
+      </stringcontrol>
+      <buttonfield name="box_afraid">
+        <bounds>-328,-124,20,20</bounds>
+        <state icon="button_box_checkoff" />
+        <state icon="button_box_checkon" />
+        <script>
+
+function onValueChanged()
+	window.condition_current.updateConditions();
+	window.condition_summary.updateConditions();
+end
+
+</script>
+      </buttonfield>
+      <buttonfield name="box_angry">
+        <bounds>-328,-104,20,20</bounds>
+        <state icon="button_box_checkoff" />
+        <state icon="button_box_checkon" />
+        <script>
+
+function onValueChanged()
+	window.condition_current.updateConditions();
+	window.condition_summary.updateConditions();
+end
+
+</script>
+      </buttonfield>
+      <buttonfield name="box_guilty">
+        <bounds>-328,-84,20,20</bounds>
+        <state icon="button_box_checkoff" />
+        <state icon="button_box_checkon" />
+        <script>
+
+function onValueChanged()
+	window.condition_current.updateConditions();
+	window.condition_summary.updateConditions();
+end
+
+</script>
+      </buttonfield>
+      <buttonfield name="box_hopeless">
+        <bounds>-328,-64,20,20</bounds>
+        <state icon="button_box_checkoff" />
+        <state icon="button_box_checkon" />
+        <script>
+
+function onValueChanged()
+	window.condition_current.updateConditions();
+	window.condition_summary.updateConditions();
+end
+
+</script>
+      </buttonfield>
+      <buttonfield name="box_insecure">
+        <bounds>-328,-44,20,20</bounds>
+        <state icon="button_box_checkoff" />
+        <state icon="button_box_checkon" />
+        <script>
+
+function onValueChanged()
+	window.condition_current.updateConditions();
+	window.condition_summary.updateConditions();
+end
+
+</script>
+      </buttonfield>
+      <windowlist name="wl_ongoing_effects">
+        <bounds>19,-126,255,61</bounds>
+        <class>ongoing_detail</class>
+        <datasource>.wl_ongoing_effects</datasource>
+        <allowcreate />
+        <allowdelete />
+        <script file="common/scripts/list_text.lua"></script>
+        <newfocus>name</newfocus>
+      </windowlist>
+      <stringcontrol name="Label14">
+        <bounds>21,-147,100,20</bounds>
+        <static textres="charsheet_Label14_LabelCaption" />
+        <font>masks_header</font>
+        <readonly />
+      </stringcontrol>
+      <subwindow name="sw_tapb">
+        <bounds>-216,-149,75,25</bounds>
+        <class>move_tapb</class>
+        <activate />
+      </subwindow>
+      <number name="condition_current">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>679,635,60,30</bounds>
+        <invisible />
+        <script>
+
+function updateConditions()
+	local nAfraid = window.box_afraid.getValue();
+	local nAngry = window.box_angry.getValue();
+	local nGuilty = window.box_guilty.getValue();
+	local nHopeless = window.box_hopeless.getValue();
+	local nInsecure = window.box_insecure.getValue();
+	local nTotal = nAfraid + nAngry + nGuilty + nHopeless + nInsecure;
+	setValue(nTotal);
+end
+</script>
+      </number>
+      <stringcontrol name="Label1">
+        <bounds>742,643,100,20</bounds>
+        <invisible />
+        <static textres="charsheet_Label1_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="condition_total">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>679,662,60,30</bounds>
+        <invisible />
+        <default>5</default>
+      </number>
+      <stringcontrol name="Label4">
+        <bounds>742,670,100,20</bounds>
+        <invisible />
+        <static textres="charsheet_Label4_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="Label6">
+        <bounds>742,698,115,20</bounds>
+        <invisible />
+        <static textres="charsheet_Label6_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringfield name="condition_summary">
+        <bounds>680,699,57,20</bounds>
+        <invisible />
+        <lineoffset default="on">2</lineoffset>
+        <script>
+
+function updateConditions()
+	local sConditions = "";
+	if window.box_afraid.getValue() == 1 then sConditions = sConditions.."|Afraid"; end
+	if window.box_angry.getValue() == 1 then sConditions = sConditions.."|Angry"; end
+	if window.box_guilty.getValue() == 1 then sConditions = sConditions.."|Guilty"; end
+	if window.box_hopeless.getValue() == 1 then sConditions = sConditions.."|Hopeless"; end
+	if window.box_insecure.getValue() == 1 then sConditions = sConditions.."|Insecure"; end
+	if string.len(sConditions) &gt; 0 then
+		sConditions = sConditions.."|"
+	end
+	
+	setValue(sConditions);
+end
+</script>
+      </stringfield>
+      <stringcontrol name="Label5">
+        <bounds>742,718,115,20</bounds>
+        <invisible />
+        <static textres="charsheet_Label5_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringfield name="ongoing_summary">
+        <bounds>680,718,57,20</bounds>
+        <invisible />
+        <lineoffset default="on">2</lineoffset>
+        <script>
+function onInit()
+	--setup handler and run update
+	local nodeOngoing = window.wl_ongoing_effects.getDatabaseNode();
+	DB.addHandler(nodeOngoing.getPath(), "onChildUpdate", updateString);
+	updateString();
+end
+
+function updateString()
+	--decalaration
+	local sOngoing = "";
+	local nOngoingCount = 0;
+	
+	--loop though list and collect children
+	local nodeOngoing = window.wl_ongoing_effects.getDatabaseNode();
+    for sListClass,rListRecord in pairs(nodeOngoing.getChildren()) do
+
+        -- declare
+        local sName = DB.getValue(rListRecord,"name", "");
+        local nHold = DB.getValue(rListRecord,"num_holds", 0);
+        local nOngoing = DB.getValue(rListRecord,"num_ongoing", 0);
+        
+        --Check for name
+        if sName ~= "" then
+			sOngoing = sOngoing..sName..": Hold["..nHold.."] Ongoing["..nOngoing.."], ";
+			nOngoingCount = nOngoingCount + 1;
+			--Debug.chat("nOngoingCount",nOngoingCount);
+        end
+    end
+    
+    --set Values
+    setValue(sOngoing);
+    window.num_ongoing_count.setValue(nOngoingCount);
+    --Debug.chat("nOngoingCount",nOngoingCount);
+	
+end
+
+
+</script>
+      </stringfield>
+      <number name="num_ongoing_count">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>869,718,60,20</bounds>
+        <invisible />
+      </number>
+      <number name="NumberField1">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>859,581,60,30</bounds>
+        <invisible />
+      </number>
+      <stringcontrol name="Label7">
+        <bounds>922,588,100,20</bounds>
+        <invisible />
+        <static textres="charsheet_Label7_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <subwindow name="sw_custom_move">
+        <bounds>690,-198,150,25</bounds>
+        <class>move_custom_window</class>
+        <activate />
+      </subwindow>
+      <stringcontrol name="Label8">
+        <bounds>929,720,100,20</bounds>
+        <invisible />
+        <static textres="charsheet_Label8_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+    </sheetdata>
+  </windowclass>
+</root>

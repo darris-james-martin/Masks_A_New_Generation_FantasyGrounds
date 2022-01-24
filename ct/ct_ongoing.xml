@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="ct_ongoing">
+    <placement>
+      <size height="56" width="430" />
+    </placement>
+    <script>
+local NODECharOngoing = nil;
+local NODECTOngoing = nil;
+
+function setEffectsVisible(v)
+	local bDoType = parentcontrol.window.str_char_type.getValue() == "charsheet";
+	
+	if bDoType then
+		ct_wl_ongoing_effects_iadd.setVisible(v);
+		for _,w in pairs(ct_wl_ongoing_effects.getWindows()) do
+			w.idelete.setValue(0);
+		end
+	end
+end
+function onInit()
+	local bDoType = parentcontrol.window.str_char_type.getValue() == "charsheet";
+	
+	if bDoType then
+		local nodeChar = parentcontrol.window.link.getTargetDatabaseNode();
+		--Debug.chat("nodeChar ongoing:",nodeChar);
+		if nodeChar then
+			local nodeCharOngoing = nodeChar.getChild("wl_ongoing_effects");
+			local nodeCTOngoing = ct_wl_ongoing_effects.getDatabaseNode();
+			if nodeCharOngoing and nodeCTOngoing then
+				NODECharOngoing = nodeCharOngoing;
+				NODECTOngoing = nodeCTOngoing;
+				DB.addHandler(NODECharOngoing.getPath(), "onChildUpdate", onUpdateNode);			
+				DB.addHandler(NODECTOngoing.getPath(), "onChildUpdate", onUpdateCharNode);
+				onUpdateNode();
+			end
+		end
+	end
+end
+
+function onUpdateNode()
+	DB.removeHandler(NODECTOngoing.getPath(), "onChildUpdate", onUpdateCharNode);
+	if NODECharOngoing and NODECTOngoing then
+		--Debug.chat("Both Exist");
+		DB.deleteChildren(NODECTOngoing);
+		DB.copyNode(NODECharOngoing, NODECTOngoing);
+	end	
+	DB.addHandler(NODECTOngoing.getPath(), "onChildUpdate", onUpdateCharNode);
+end
+
+function onUpdateCharNode()
+	DB.removeHandler(NODECharOngoing.getPath(), "onChildUpdate", onUpdateNode);	
+	if NODECharOngoing and NODECTOngoing then
+		--Debug.chat("Both Exist");
+		DB.deleteChildren(NODECharOngoing);
+		DB.copyNode(NODECTOngoing, NODECharOngoing);
+	end	
+	DB.addHandler(NODECharOngoing.getPath(), "onChildUpdate", onUpdateNode);
+end
+
+function onClose()
+	if NODECharOngoing and NODECTOngoing then
+		DB.removeHandler(NODECharOngoing.getPath(), "onChildUpdate", onUpdateNode);
+		DB.removeHandler(NODECTOngoing.getPath(), "onChildUpdate", onUpdateCharNode);	
+	end
+end
+
+function getNodeOngoing()
+	return NODECharOngoing;
+end
+
+</script>
+    <sheetdata>
+      <windowlist name="ct_wl_ongoing_effects">
+        <anchored>
+          <left offset="0" />
+          <right offset="0" />
+          <top offset="0" />
+        </anchored>
+        <class>ongoing_detail</class>
+        <datasource>.ct_wl_ongoing_effects</datasource>
+        <allowcreate />
+        <allowdelete />
+        <noscroll />
+      </windowlist>
+      <buttoncontrol name="ct_wl_ongoing_effects_iadd">
+        <anchored>
+          <right offset="-4" />
+          <top offset="2" anchor="bottom" parent="ct_wl_ongoing_effects" relation="current" />
+          <size>
+            <width>20</width>
+            <height>20</height>
+          </size>
+        </anchored>
+        <tooltip textres="ct_ongoing_ct_wl_ongoing_effects_iadd_Tooltip" />
+        <icon normal="button_add" />
+        <script>
+
+function onClickRelease(button, x, y)
+	local node = window.getNodeOngoing();
+	--Debug.chat("node",node);
+	if node then
+		local nodeChild = node.createChild();
+		
+	end
+end
+
+</script>
+      </buttoncontrol>
+    </sheetdata>
+  </windowclass>
+</root>

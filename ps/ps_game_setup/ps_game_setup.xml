@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="ps_game_setup">
+    <placement>
+      <size height="455" width="755" />
+    </placement>
+    <sheetdata>
+      <stringcontrol name="Label1">
+        <bounds>19,17,100,20</bounds>
+        <static textres="ps_game_setup_Label1_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <stringcontrol name="Label2">
+        <bounds>405,28,100,20</bounds>
+        <static textres="ps_game_setup_Label2_LabelCaption" />
+        <readonly />
+      </stringcontrol>
+      <number name="num_total_team">
+        <frame>
+          <name>fielddark</name>
+        </frame>
+        <bounds>339,23,60,30</bounds>
+        <script>
+
+function onInit()
+	Comm.onReceiveOOBMessage = processOOBMessage;
+end
+
+function processOOBMessage(msg)
+	--Debug.chat("processOOBMessage: ",msg, msg['newValue']);
+	local nNewValue = tonumber(msg['newValue']);
+	setValue(nNewValue);
+	
+--	local nTeamDisplay = team_manager.getTeamValue();
+--	local nTeamValue = getValue();
+--	Debug.chat("nTeamDisplay",nTeamDisplay,"nTeamValue",nTeamValue);
+--	team_manager.setTeamValue(nNewValue);
+	
+	--if nTeamDisplay ~= nTeamValue then
+	--	team_manager.setTeamValue(nTeamValue);
+	--end
+end
+</script>
+      </number>
+    </sheetdata>
+  </windowclass>
+</root>

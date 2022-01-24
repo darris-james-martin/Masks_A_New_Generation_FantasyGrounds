@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <panel name="panel_team" modes="all">
+    <class>panel_team</class>
+    <bounds>
+      <anchored>
+        <left anchor="left" offset="100" />
+        <top anchor="bottom" offset="-115" />
+        <size>
+          <width>120</width>
+          <height>80</height>
+        </size>
+      </anchored>
+    </bounds>
+  </panel>
+  <windowclass name="panel_team">
+    <script>
+
+function onInit()
+	team_manager.registerControl(self);
+end
+
+
+function onClose()
+	team_manager.registerControl(nil);
+end
+
+</script>
+    <sheetdata>
+      <button_teams_icon name="icon_team_point">
+        <bounds>20,0,80,80</bounds>
+        <script>
+
+
+</script>
+      </button_teams_icon>
+      <genericcontrol name="IconControl1">
+        <bounds>20,0,80,80</bounds>
+        <icon>team_icon</icon>
+      </genericcontrol>
+      <number name="num_team">
+        <bounds>20,0,80,80</bounds>
+        <tooltip textres="panel_team_num_team_Tooltip" />
+        <readonly />
+        <delaykeyupdate />
+        <min>0</min>
+        <default>0</default>
+        <displaysign />
+        <delaykeyupdate />
+        <font>reference-h</font>
+        <script>
+
+function onDragStart(button, x, y, draginfo)
+	local value = getValue();
+	if value &gt; 0 then
+		draginfo.setType("teamPoint");
+		draginfo.setIcon(window.icon_team_point.activeicon[1]);
+		
+		local bOwner = DB.isOwner("partysheet.num_total_team");
+		if bOwner then
+			DB.setValue("partysheet.num_total_team","number",value-1);
+		else
+			RulesetWizard.changeDBValueOOB("partysheet.num_total_team", value-1);
+		end
+				
+		return true;
+	end
+	return false;
+end
+
+function onDoubleClick(x, y)
+	local value = getValue();
+	if value &gt; 0 then
+		ModifierStack.addSlot("Team (Selfishly)", 1);
+		local bOwner = DB.isOwner("partysheet.num_total_team");
+		if bOwner then
+			DB.setValue("partysheet.num_total_team","number",value-1);
+		else
+			RulesetWizard.changeDBValueOOB("partysheet.num_total_team", value-1);
+			
+		end
+	end
+end
+
+
+
+
+</script>
+      </number>
+      <buttoncontrol name="btn_add_team">
+        <bounds>95,60,20,20</bounds>
+        <gmvisibleonly />
+        <icon normal="button_add" />
+        <script>
+
+function onClickRelease(button, x, y)
+	local value = window.num_team.getValue() + 1;
+	--Debug.chat("value",value);
+	
+	local bOwner = DB.isOwner("partysheet.num_total_team");
+	if bOwner then
+		DB.setValue("partysheet.num_total_team","number",value);
+	else
+		RulesetWizard.changeDBValueOOB("partysheet.num_total_team", value);
+	end
+	
+end
+
+</script>
+      </buttoncontrol>
+      <buttoncontrol name="btn_remove_team">
+        <bounds>5,60,20,20</bounds>
+        <gmvisibleonly />
+        <icon normal="button_delete" />
+        <script>
+
+function onClickRelease(button, x, y)
+	local value = window.num_team.getValue() - 1;
+	--Debug.chat("value",value);
+	
+	local bOwner = DB.isOwner("partysheet.num_total_team");
+	if bOwner then
+		DB.setValue("partysheet.num_total_team","number",value);
+	else
+		RulesetWizard.changeDBValueOOB("partysheet.num_total_team", value);
+	end
+	
+end
+
+</script>
+      </buttoncontrol>
+    </sheetdata>
+  </windowclass>
+</root>
